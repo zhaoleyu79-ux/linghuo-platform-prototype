@@ -1,0 +1,1007 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>灵活用工平台 · 交互原型 v0.1</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;background:#f6f4ef;color:#26303b;line-height:1.6}
+.top{position:sticky;top:0;z-index:50;background:rgba(246,244,239,.94);backdrop-filter:blur(8px);border-bottom:1px solid #e7e2d8;padding:12px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{display:flex;gap:12px;align-items:center}
+.logo{width:38px;height:38px;border-radius:10px;background:#2f6bed;color:#fff;display:grid;place-items:center;font-weight:700;font-size:17px}
+h1{font-size:15px;font-weight:700}
+.sub{font-size:12px;color:#7a8090;margin-top:2px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tabs button{border:1px solid #ddd8cc;background:#fff;padding:8px 14px;border-radius:999px;font-size:13px;cursor:pointer;color:#3d4653}
+.tabs button.active{background:#26303b;color:#fff;border-color:#26303b}
+main{max-width:1180px;margin:0 auto;padding:22px 22px 60px}
+.tabpanel{display:none}
+.tabpanel.active{display:block}
+.stage{display:flex;gap:26px;align-items:flex-start;flex-wrap:wrap}
+.phone{width:390px;height:802px;background:#14181f;border-radius:46px;padding:10px;box-shadow:0 24px 60px rgba(30,35,45,.24);flex:0 0 auto}
+.phone.wide{width:700px}
+.phone .inner{background:#fbfaf7;border-radius:38px;height:100%;overflow:hidden;position:relative;display:flex;flex-direction:column}
+.phone.wide .inner{border-radius:24px}
+.statusbar{height:32px;display:flex;justify-content:space-between;padding:0 24px;align-items:center;font-size:12px;color:#4a4f5a;flex:0 0 auto}
+.navbar{height:46px;display:flex;align-items:center;padding:0 12px;gap:6px;border-bottom:1px solid #eee9df;background:#fbfaf7;font-weight:600;font-size:15px;flex:0 0 auto}
+.navbar .back{width:32px;height:32px;border-radius:8px;border:none;background:transparent;font-size:17px;cursor:pointer;color:#3d4653}
+.navbar .title{flex:1;text-align:center}
+.navbar .right{width:32px}
+.screen{flex:1;overflow:auto;padding:14px}
+.tabbar{height:56px;border-top:1px solid #eee9df;display:flex;background:#fff;flex:0 0 auto}
+.tabbar div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;color:#98a0ad;cursor:pointer;gap:1px}
+.tabbar div.active{color:#2f6bed;font-weight:600}
+.tabbar .ico{font-size:17px;line-height:1}
+.card{background:#fff;border:1px solid #eee9df;border-radius:14px;padding:14px;margin-bottom:12px}
+.card.tap{cursor:pointer;transition:box-shadow .15s}
+.card.tap:hover{box-shadow:0 6px 18px rgba(40,50,70,.08)}
+.chip{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;background:#eef1f6;color:#4b5563;margin-right:6px}
+.chip.y{background:#fef3c7;color:#92610a}
+.chip.t{background:#d9f2ee;color:#0b6b60}
+.chip.b{background:#e3ecfd;color:#2f5fd0}
+.chip.r{background:#fde8e8;color:#b42318}
+.chip.gray{background:#f1f0ec;color:#8a8f9a}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:none;border-radius:12px;padding:11px 16px;font-size:14px;cursor:pointer;font-weight:600;font-family:inherit}
+.btn.primary{background:#2f6bed;color:#fff}
+.btn.green{background:#0d9488;color:#fff}
+.btn.ghost{background:#fff;border:1px solid #d9d4c8;color:#3d4653}
+.btn.danger{background:#fff;border:1px solid #eecfcf;color:#b42318}
+.btn.block{width:100%}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:10px}
+.row .btn{flex:1}
+.kv{display:flex;justify-content:space-between;gap:10px;font-size:13px;padding:7px 0;border-bottom:1px dashed #f0ece3}
+.kv:last-child{border-bottom:none}
+.kv .k{color:#7a8090;flex:0 0 auto}
+.kv .v{text-align:right}
+.muted{color:#8a8f9a;font-size:12px}
+.h2{font-size:14px;font-weight:700;margin:4px 0 10px}
+.sec-t{font-size:12px;color:#8a8f9a;margin:16px 2px 8px;letter-spacing:.04em}
+.check{display:flex;align-items:center;gap:10px;padding:11px 12px;border:1px solid #eee9df;border-radius:12px;background:#fff;margin-bottom:8px;font-size:13px}
+.check .ok{margin-left:auto;color:#0d9488;font-weight:700}
+.steps{list-style:none;margin:6px 0 12px}
+.steps li{display:flex;gap:10px;align-items:center;padding:9px 2px;font-size:13px;border-bottom:1px dashed #f0ece3}
+.steps li:last-child{border-bottom:none}
+.steps .n{width:20px;height:20px;border-radius:50%;background:#eef1f6;color:#5b6270;display:grid;place-items:center;font-size:11px;font-weight:700;flex:0 0 auto}
+.steps li.done .n{background:#0d9488;color:#fff}
+.steps li.now .n{background:#2f6bed;color:#fff}
+.photos{display:flex;gap:8px;margin:8px 0}
+.ph{width:72px;height:72px;border-radius:10px;background:linear-gradient(135deg,#dbe7ff,#c7d8f7);display:grid;place-items:center;font-size:20px}
+.ph.empty{background:#f4f1ea;border:1px dashed #d9d4c8}
+.sheet{position:absolute;inset:0;background:rgba(25,30,40,.42);display:none;align-items:flex-end;z-index:30;border-radius:38px}
+.sheet.open{display:flex}
+.sheet .box{background:#fff;border-radius:20px 20px 38px 38px;padding:18px 16px;width:100%}
+.sheet select,.sheet textarea{width:100%;border:1px solid #ddd8cc;border-radius:10px;padding:9px;font-size:13px;font-family:inherit;margin:8px 0;background:#fdfdfb}
+.notice{background:#f4f7ff;border:1px solid #dbe6ff;border-radius:12px;padding:10px 12px;font-size:12px;color:#3b548c;margin-bottom:12px}
+.warn{background:#fff9ec;border:1px solid #f3e3b8;border-radius:12px;padding:10px 12px;font-size:12px;color:#8a610a;margin-bottom:12px}
+aside.notes{flex:1;min-width:300px;max-width:520px}
+.note-card{background:#fff;border:1px solid #eee9df;border-radius:14px;padding:16px;margin-bottom:14px}
+.note-card h3{font-size:13px;margin-bottom:8px}
+.note-card ol,.note-card ul{margin-left:18px;font-size:13px;color:#4b5563}
+.note-card li{margin:5px 0}
+.kbd{display:inline-block;border:1px solid #ddd8cc;border-bottom-width:2px;border-radius:6px;background:#fbfaf7;padding:0 7px;font-size:12px;margin:0 2px}
+.browser{background:#fff;border:1px solid #e2ddd2;border-radius:16px;overflow:hidden;box-shadow:0 16px 44px rgba(40,50,70,.10);max-width:760px}
+.browser .bar{height:38px;display:flex;align-items:center;gap:7px;padding:0 14px;background:#f3efe7;border-bottom:1px solid #e7e2d8}
+.dotr{width:10px;height:10px;border-radius:50%}
+.b-body{display:flex;min-height:560px}
+.b-side{width:168px;border-right:1px solid #efeae1;padding:12px 10px;background:#faf8f3}
+.b-side div{padding:9px 10px;border-radius:9px;font-size:13px;color:#5b6270;cursor:pointer;margin-bottom:4px}
+.b-side div.active{background:#e8eefc;color:#2f5fd0;font-weight:600}
+.b-main{flex:1;padding:16px;min-width:0}
+.rule-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid #eee9df;border-radius:12px;margin-bottom:8px;font-size:13px;background:#fff}
+.switch{width:38px;height:21px;border-radius:999px;background:#e4e0d4;position:relative;margin-left:auto;opacity:.7;flex:0 0 auto}
+.switch::after{content:"";position:absolute;top:2px;left:2px;width:17px;height:17px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.switch.on{background:#c9c4b6}
+.switch.on::after{left:19px}
+.tl{position:relative;padding-left:20px}
+.tl::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:2px;background:#eae5da}
+.tl-item{position:relative;margin-bottom:14px;font-size:13px}
+.tl-item .dot{position:absolute;left:-20px;top:4px;width:12px;height:12px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 2px #e3ddd0}
+.f-a .dot{background:#2f6bed}
+.f-b .dot{background:#0d9488}
+.f-c .dot{background:#d97706}
+.f-d .dot{background:#7c3aed}
+.tl-time{font-size:11px;color:#98a0ad}
+.tl-tag{font-size:11px;padding:1px 7px;border-radius:999px;margin-right:6px}
+.tag-a{background:#e3ecfd;color:#2f5fd0}
+.tag-b{background:#d9f2ee;color:#0b6b60}
+.tag-c{background:#fdf0d9;color:#92610a}
+.tag-d{background:#efe7fd;color:#6a3cbf}
+.menu-item{display:flex;align-items:center;gap:10px;padding:13px 12px;border-bottom:1px solid #f2eee5;font-size:14px;cursor:pointer;background:#fff}
+.menu-item:first-child{border-radius:14px 14px 0 0}
+.menu-item:last-child{border-bottom:none;border-radius:0 0 14px 14px}
+.menu-item .arr{margin-left:auto;color:#c2c6cf}
+.menu-wrap{border:1px solid #eee9df;border-radius:14px;overflow:hidden;margin-bottom:14px}
+.empty{color:#a3a8b3;font-size:13px;text-align:center;padding:36px 10px}
+#toast{position:fixed;left:50%;bottom:34px;transform:translateX(-50%) translateY(20px);background:#26303b;color:#fff;font-size:13px;padding:10px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:all .25s;z-index:99;max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.footer{max-width:1180px;margin:8px auto 0;padding:0 22px 30px;color:#98a0ad;font-size:12px}
+.layer{border:1px solid #eee9df;border-radius:12px;padding:10px 12px;margin-bottom:8px;background:#fff}
+.layer.hl{border-color:#eecfcf;background:#fff8f8}
+.layer .lt{font-weight:700;font-size:13px;margin-bottom:7px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.persp{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.persp .card{margin-bottom:0}
+.chk-row{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid #f0ece3;border-radius:10px;margin-bottom:6px;font-size:13px;flex-wrap:wrap}
+.chk-row .seg{margin-left:auto;display:flex;gap:4px}
+.seg button{border:1px solid #ddd8cc;background:#fff;border-radius:8px;padding:2px 9px;font-size:11px;cursor:pointer;color:#5b6270}
+.seg button.on.pass{background:#d9f2ee;border-color:#0d9488;color:#0b6b60;font-weight:700}
+.seg button.on.doubt{background:#fef3c7;border-color:#d97706;color:#92610a;font-weight:700}
+.seg button.on.object{background:#fde8e8;border-color:#b42318;color:#b42318;font-weight:700}
+.export-area{width:100%;min-height:120px;border:1px solid #ddd8cc;border-radius:12px;padding:10px;font-size:12px;font-family:inherit;background:#fdfdfb;color:#26303b}
+@media (max-width:900px){.stage{flex-direction:column}.phone{transform:scale(.96);transform-origin:top left}.persp{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">
+    <div class="logo">灵</div>
+    <div>
+      <h1>灵活用工平台 · 交互原型 <span style="color:#98a0ad;font-weight:400">v0.1</span></h1>
+      <p class="sub">演示口径：可任务化 高/中/低（唯一口径）· 本轮容器＝现场型承揽 · 四流合一默认开启 · 拒绝零代价</p>
+    </div>
+  </div>
+  <nav class="tabs" id="tabs">
+    <button data-tab="o" class="active">⓪ 总览 · 设计地图</button>
+    <button data-tab="c">① C 端 · 劳动者</button>
+    <button data-tab="b">② B 端 · 门店</button>
+    <button data-tab="a">③ A/S 端 · 承接方</button>
+    <button data-tab="e">④ 证据链 · 四流</button>
+    <button data-tab="p">⑤ 平台视角 · 运营</button>
+    <button data-tab="x">⑥ 合规审查台</button>
+    <button data-tab="k">⑦ 审阅清单</button>
+  </nav>
+</header>
+
+<main>
+  <!-- ============ ⓪ 总览 ============ -->
+  <section class="tabpanel active" id="panel-o">
+    <div class="stage">
+      <div style="flex:1;min-width:340px;max-width:780px">
+        <div class="card">
+          <div class="h2">灵活用工平台 · 设计地图（审阅第一站）</div>
+          <p style="font-size:13px">定位：以「任务卡」为最小用工单元的<b>合规基础设施</b>——用工关系的判定器、合规的阀门、证据的记录者。<b>工具与记录者，不是用工主体</b>。</p>
+          <div class="chips" style="margin-top:10px">
+            <span class="chip b">口径唯一：可任务化 高/中/低</span>
+            <span class="chip r">红线在系统层「做不到」</span>
+            <span class="chip t">四流合一默认开启</span>
+            <span class="chip y">本轮＝现场型承揽</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="h2">五层架构（合规中台不可绕过 ★）</div>
+          <div class="layer"><div class="lt">① 接入层</div><div class="chips"><span class="chip">B 端 门店/HR</span><span class="chip">A 端 承揽方</span><span class="chip">C 端 劳动者</span><span class="chip">运营后台</span><span class="chip">开放 API</span></div></div>
+          <div class="layer"><div class="lt">② 业务域层（11 域）</div><div class="chips"><span class="chip">租户与主体</span><span class="chip">组织门店</span><span class="chip">岗位与容器</span><span class="chip">任务卡</span><span class="chip">预测排班</span><span class="chip">供需市场</span><span class="chip">履约验收</span><span class="chip">结算税务</span><span class="chip">保障投保</span><span class="chip">供给池</span><span class="chip">计费商业化</span></div></div>
+          <div class="layer hl"><div class="lt" style="color:#b42318">③ 合规中台层 ★（所有业务的横向阀门 · 不可绕过）</div><div class="chips"><span class="chip r">规则引擎（硬校验/黑名单/混同/报送）</span><span class="chip r">四流证据引擎（时间戳/中立存证）</span><span class="chip r">治理与红线（配置白名单/算法留痕）</span></div></div>
+          <div class="layer"><div class="lt">④ 数据与智能层</div><div class="chips"><span class="chip">需求预测</span><span class="chip">匹配建议（非强制）</span><span class="chip">AI 验收</span><span class="chip">培训切片</span><span class="chip">BI/劳动力账户</span></div></div>
+          <div class="layer"><div class="lt">⑤ 基础平台层</div><div class="chips"><span class="chip">多租户/多法人实体</span><span class="chip">身份权限</span><span class="chip">集成总线</span><span class="chip">存证/审计/等保</span></div></div>
+        </div>
+        <div class="card">
+          <div class="h2">四视角审阅入口</div>
+          <div class="persp">
+            <div class="card"><b>👷 灵工视角</b><div class="muted">接单自由 / 拒单零代价 / 结算与台账</div><button class="btn ghost" style="margin-top:8px" onclick="switchTab('c')">进入 ① C 端 →</button></div>
+            <div class="card"><b>🏪 雇主视角</b><div class="muted">发单 / 验收 / 红线不可配置</div><button class="btn ghost" style="margin-top:8px" onclick="switchTab('b')">进入 ② B 端 →</button></div>
+            <div class="card"><b>🛠 平台视角</b><div class="muted">租户 / 规则包 / 计费 / 供给 / 监控</div><button class="btn ghost" style="margin-top:8px" onclick="switchTab('p')">进入 ⑤ 运营控制台 →</button></div>
+            <div class="card"><b>🛡 合规甄别</b><div class="muted">逐项体检：判例要素 / 黑名单 / 四流 / 法规</div><button class="btn ghost" style="margin-top:8px" onclick="switchTab('x')">进入 ⑥ 合规审查台 →</button></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="h2">本原型包含 / 不包含（诚实边界）</div>
+          <div class="kv"><span class="k">包含</span><span class="v">灵工 / 雇主 / 承接方 / 平台 / 合规审查 / 证据链 —— 可点闭环（演示数据）</span></div>
+          <div class="kv"><span class="k">不包含</span><span class="v">真实数据与真实合规结论；A 层排班；真机适配；支付/实名等实连</span></div>
+          <div class="muted" style="margin-top:6px">⚠️ 原型为设计沟通工具，非法律意见；判例与法规对照为设计自检，落地前需律师复核。</div>
+        </div>
+      </div>
+      <aside class="notes">
+        <div class="note-card">
+          <h3>审阅顺序建议（约 30 分钟）</h3>
+          <ol>
+            <li>本页 ⓪ 预看整体框架（五层 ＋ 四视角入口）</li>
+            <li>按 ① → ② → ③ 走三端闭环（可刻意踩线）</li>
+            <li>⑤ 平台控制台：治理与运营面</li>
+            <li>⑥ 合规审查台：对一次走完的流程做「严格甄别」</li>
+            <li>⑦ 审阅清单：逐项标「过 / 疑问 / 不同意」，生成汇总发我</li>
+          </ol>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ C 端 ============ -->
+  <section class="tabpanel" id="panel-c">
+    <div class="stage">
+      <div class="phone" id="phone">
+        <div class="inner">
+          <div class="statusbar"><span id="clock">17:02</span><span>📶 🔋</span></div>
+          <div class="navbar" id="navbar"></div>
+          <div class="screen" id="appScreen"></div>
+          <div class="tabbar" id="tabbar"></div>
+          <div class="sheet" id="sheet"><div class="box" id="sheetBox"></div></div>
+        </div>
+      </div>
+      <aside class="notes">
+        <div class="note-card">
+          <h3>👆 演示脚本（照着点，2 分钟走完闭环）</h3>
+          <ol>
+            <li>先看 ⓪ 总览（设计地图＋四视角入口），再点开任意任务 → 先试一次 <b>「暂不接」</b>，看拒单提示（零代价）</li>
+            <li>再进去 <b>「接受任务」</b> → 门禁校验 → 电子签约</li>
+            <li>到岗确认 → 上传成果照片 → 提交成果</li>
+            <li>切到 <span class="kbd">② B 端</span> → 验收台「确认通过」</li>
+            <li>回 C 端看 <b>验收结果 → 结算明细</b>；打开「我的工作记录」可下载</li>
+            <li>最后切到 <span class="kbd">④ 证据链</span> 看四流实时累积</li>
+            <li>（补充体验）切到 <span class="kbd">③ A/S 端</span>：项目包「接单 → 签约 → 成果 → 验收 → 对公开票」闭环</li>
+          </ol>
+        </div>
+        <div class="note-card">
+          <h3>设计要点（本次原型固化）</h3>
+          <ul>
+            <li><b>拒单零代价</b>：不降权、不扣分、不影响可见性；<b>未响应 ≠ 接受</b>（防强制派单）</li>
+            <li><b>到岗确认仅「确认」级</b>：记录履约证据，不考核、不惩罚、不以签到为标的</li>
+            <li><b>结算＝报酬明细清单</b>（对齐新规征求意见稿第十三条）</li>
+            <li><b>工作记录可一键下载</b>（对齐第二十三条台账要求）</li>
+            <li>双端：小程序优先；<button class="btn ghost" style="padding:4px 10px;font-size:12px" onclick="toggleWide()">切换宽屏试试（响应式 Web）</button></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ B 端 ============ -->
+  <section class="tabpanel" id="panel-b">
+    <div class="stage">
+      <div class="browser">
+        <div class="bar">
+          <span class="dotr" style="background:#f26d6d"></span><span class="dotr" style="background:#f2c94c"></span><span class="dotr" style="background:#6fcf97"></span>
+          <span style="margin-left:10px;font-size:12px;color:#8a8f9a">每一天 · 雁塔路店（示例）— 门店工作台</span>
+        </div>
+        <div class="b-body">
+          <div class="b-side" id="bside">
+            <div data-v="publish" class="active" onclick="toggleBSide('publish')">📣 发单大厅</div>
+            <div data-v="review" onclick="toggleBSide('review')">✅ 验收台</div>
+            <div data-v="compliance" onclick="toggleBSide('compliance')">🛡 合规视图</div>
+          </div>
+          <div class="b-main" id="bmain"></div>
+        </div>
+      </div>
+      <aside class="notes">
+        <div class="note-card">
+          <h3>门店端要点</h3>
+          <ul>
+            <li><b>发单</b>：从「任务卡库」选卡发布，任务实时进入 C 端广场（演示）</li>
+            <li><b>验收</b>：店长确认 ＋ AI 初判辅助；退回返工<b>不扣款</b></li>
+            <li><b>合规视图</b>：红线动作开关<b>全部不可启用</b>（系统层做不到）——「强制派单/请假审批/考勤打卡/惩罚扣款」</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <h3>四流去哪看</h3>
+          <p class="muted">门店每完成一次验收，C 端 / 证据链两端都会同步出现对应记录。去 <span class="kbd">④ 证据链</span> 看全量时间线。</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ A/S 端 ============ -->
+  <section class="tabpanel" id="panel-a">
+    <div class="stage">
+      <div class="browser" style="border-color:#dbe6ff">
+        <div class="bar">
+          <span class="dotr" style="background:#f26d6d"></span><span class="dotr" style="background:#f2c94c"></span><span class="dotr" style="background:#6fcf97"></span>
+          <span style="margin-left:10px;font-size:12px;color:#8a8f9a">承接方工作台（示例：××盘点服务有限公司）— 对公承揽</span>
+        </div>
+        <div class="b-main" id="amain" style="min-height:520px"></div>
+      </div>
+      <aside class="notes">
+        <div class="note-card">
+          <h3>A/S 端要点（🟢 轨 · 优先对公司）</h3>
+          <ul>
+            <li>项目包「<b>成包不成点</b>」：接单方是<b>公司/团队</b>；平台不向承接方人员派单、排班、考核（假外包真派遣红线——相关功能<b>不存在</b>）</li>
+            <li>履约自主：承接方用<b>自有组织与工具</b>完成，按成果验收（示例：盘点差异率 ≤ 1%）</li>
+            <li>对公结算与开票，写入同一条证据链（可与 C 端流程对照）</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <h3>双轨对照</h3>
+          <p class="muted">🟡 轨（C 端 · 个人 · 现场型承揽）↔ 🟢 轨（A/S 端 · 对公 · 项目外包）。两条轨共用同一「任务卡 → 合规引擎 → 四流证据链」内核，差异全部在配置。</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ 证据链 ============ -->
+  <section class="tabpanel" id="panel-e">
+    <div class="stage">
+      <div style="flex:1;min-width:340px;max-width:640px">
+        <div class="card"><div id="smBox"></div></div>
+        <div class="card">
+          <div class="h2">四流合一 · 实时时间线 <span class="chip gray" id="evCount">0 条</span></div>
+          <div id="timeline"><div class="empty">还没有记录 —— 先在 ① C 端 做几个动作，这里会实时累积（四流默认开启、不可关闭、只追加不修改）</div></div>
+        </div>
+        <div class="card">
+          <div class="h2">自愿意愿记录（真实发单/接单场景举证）</div>
+          <div id="volList"><div class="empty">接受 / 拒绝 行为将在此留痕</div></div>
+        </div>
+      </div>
+      <aside class="notes">
+        <div class="note-card">
+          <h3>为什么这是产品功能，不是法务补丁</h3>
+          <ul>
+            <li>协议流 / 履约流 / 资金流 / 票据流：<b>事中生成</b>、同一时间轴、可导出为争议证据包</li>
+            <li>「自愿性证据」：接受与拒绝都留痕 → 回应 CCFA「无真实派单接单场景」的点名</li>
+            <li>记录<b>只追加、不可修改、不可删除</b>（审计留痕）</li>
+          </ul>
+          <div class="row" style="margin-top:10px">
+            <button class="btn ghost" onclick="exportEvidence()">导出证据包（示例）</button>
+            <button class="btn ghost" onclick="downloadRecord()">下载工作记录（示例）</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ ⑤ 平台视角 ============ -->
+  <section class="tabpanel" id="panel-p">
+    <div class="stage">
+      <div class="browser" style="border-color:#e2ddd2;max-width:840px">
+        <div class="bar">
+          <span class="dotr" style="background:#f26d6d"></span><span class="dotr" style="background:#f2c94c"></span><span class="dotr" style="background:#6fcf97"></span>
+          <span style="margin-left:10px;font-size:12px;color:#8a8f9a">平台运营控制台（我方自身视角 · 示例数据）</span>
+        </div>
+        <div class="b-main" id="pmain" style="min-height:560px"></div>
+      </div>
+      <aside class="notes">
+        <div class="note-card">
+          <h3>平台视角要点</h3>
+          <ul>
+            <li>三层隔离 ＋ 铁律「合同主体＝用工主体＝发薪主体」在<b>模型层强制</b></li>
+            <li>规则＝可版本化配置（每条规则带回归用例）；参数卡按辖区＋时点，过期自动告警</li>
+            <li>红线不是「开关关掉」，是<b>不存在启用状态</b>（含拦截日志）</li>
+            <li>计费锚点 6.8–7%；<b>不以结算速度收费</b>（YoungOnes 先例）</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ ⑥ 合规审查台 ============ -->
+  <section class="tabpanel" id="panel-x">
+    <div class="stage">
+      <div style="flex:1;min-width:340px;max-width:780px">
+        <div class="card" id="xmain"></div>
+      </div>
+      <aside class="notes">
+        <div class="note-card">
+          <h3>这是「严格甄别」工具</h3>
+          <ul>
+            <li>九维体检：三区校验 → 黑名单扫描 → 判例要素勾稽 → 四流完整性 → 法规对照 → 依赖度提示 → 举证预检 → 参数时效 → 结论</li>
+            <li>先在 ① 或 ③ 完整走一遍流程，本页才有体检对象</li>
+            <li>判例要素对照为<b>设计自检</b>（演示口径），不是个案法律意见</li>
+            <li>待律师复核项会一并列出（并入 Q7 复核包）</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ ⑦ 审阅清单 ============ -->
+  <section class="tabpanel" id="panel-k">
+    <div class="stage">
+      <div style="flex:1;min-width:340px;max-width:840px">
+        <div class="card">
+          <div class="h2">审阅清单（逐项标记：过 / 疑问 / 不同意）</div>
+          <div class="muted" style="margin-bottom:10px">标记保存在本机浏览器；点「生成批注汇总」后复制文本发我，我按编号逐条回写文档。</div>
+          <div id="kList"></div>
+          <div class="row" style="margin-top:10px"><button class="btn primary" onclick="genSummary()">生成批注汇总</button><button class="btn ghost" onclick="clearChecks()">清空标记</button></div>
+          <textarea id="kOut" class="export-area" style="margin-top:10px" placeholder="点「生成批注汇总」，这里会出现可复制文本"></textarea>
+        </div>
+      </div>
+      <aside class="notes">
+        <div class="note-card">
+          <h3>怎么用</h3>
+          <ul>
+            <li>每一项点一个状态：<b>过</b>（认可）/ <b>疑问</b>（要求说明）/ <b>不同意</b>（要改）</li>
+            <li>没有把握的项留空即可（汇总会统计「未标记」）</li>
+            <li>汇总文本可直接粘贴到对话里</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<div class="footer">原型说明：页面均为演示数据（示例口径）· 设计依据：[[03 平台设计讨论稿 v0.2（审阅版）]] / [[04 劳动者端（C 端）功能设计 v0.1]] · 非法律意见 · 表述纪律见 03 §22</div>
+<div id="toast"></div>
+
+<script>
+/* ---------- 状态 ---------- */
+const TASKS = [
+  {id:'t1',chip:'🟡 现场型承揽',title:'高峰理货补货',org:'每一天 · 雁塔路店（示例）',win:'今天 17:00–19:00 · 2 小时窗口',pay:'按包计价 · ¥68 / 包',dist:'距你 0.8 km',
+   desc:'高峰后整排货架理货、补货、排面整理，按包验收。',std:['排面照片 ×3 提交','店长抽查复核'],req:'理货 SOP（基础级）已认证',note:'本任务不考核到岗时长；迟到 / 早退不扣款',status:'open'},
+  {id:'t2',chip:'🟡 现场型承揽',title:'外卖拣货打包（午峰）',org:'每一天 · 小寨店（示例）',win:'今天 11:30–13:30',pay:'按单计价 · ¥1.2 / 单（预估 35–45 单）',dist:'距你 1.2 km',
+   desc:'线上订单拣货、打包、交接外卖骑手。',std:['打包合规率抽查','错漏单记录（返工不扣款）'],req:'拣货 SOP 认证',note:'单量以实际为准，不做保底承诺、不做超时罚则',status:'open'},
+  {id:'t3',chip:'🟡 现场型承揽',title:'临期食品检查与下架',org:'每一天 · 雁塔路店（示例）',win:'明天 09:00–10:00',pay:'按包计价 · ¥35 / 包',dist:'距你 0.8 km',
+   desc:'临期巡检、下架、登记（食安责任岗，需认证）。',std:['巡检照片','登记表提交'],req:'食安基础认证',note:'涉及食安背书，验收从严；不通过返工、不扣款',status:'open'}
+];
+const LIB = [
+  {title:'高峰理货补货',pay:'¥68 / 包',req:'理货 SOP（基础级）'},
+  {title:'外卖拣货打包（午峰）',pay:'¥1.2 / 单',req:'拣货 SOP'},
+  {title:'临期食品检查与下架',pay:'¥35 / 包',req:'食安基础认证'},
+  {title:'收货验收协助',pay:'¥55 / 包',req:'收货验收认证'}
+];
+const state = {
+  tab:'o', bview:'publish', view:'square', taskId:null, flow:null, aflow:null, auditSel:'c', wide:false, pubSeq:0,
+  rejected:{}, photos:0, evidence:[], voluntary:[], checks:{},
+  pubCard:null, pubWin:'今天 19:00–20:00'
+};
+try{ state.checks=JSON.parse(localStorage.getItem('protoChecks')||'{}'); }catch(e){}
+
+/* ---------- 工具 ---------- */
+const $ = s => document.querySelector(s);
+function now(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),2600); }
+function ev(flow,text,extra){ state.evidence.push({t:now(),flow,text,extra:extra||''}); }
+function vol(text){ state.voluntary.push({t:now(),text}); }
+
+/* ---------- 页签 ---------- */
+function switchTab(t){
+  state.tab=t;
+  document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));
+  document.querySelectorAll('.tabpanel').forEach(p=>p.classList.remove('active'));
+  $('#panel-'+t).classList.add('active');
+  renderC(); renderB(); renderA(); renderP(); renderX(); renderK(); renderE();
+}
+document.querySelectorAll('#tabs button').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+function toggleWide(){ state.wide=!state.wide; $('#phone').classList.toggle('wide',state.wide); toast(state.wide?'宽屏视图：同一套功能，响应式 Web（辅端演示）':'已切回手机视图'); }
+function toggleBSide(v){ state.bview=v; renderB(); }
+
+/* ---------- C 端渲染 ---------- */
+const BACK={detail:'square',gate:'detail',sign:'gate',acceptance:'active',settlement:'active',record:'profile',appeal:'profile',rules:'profile',mytasks:'square'};
+const TITLES={square:'任务广场',detail:'任务详情',gate:'接单校验',sign:'签署协议',active:'进行中的任务',acceptance:'验收结果',settlement:'结算明细',record:'我的工作记录',profile:'我的',appeal:'申诉与帮助',rules:'规则公示',mytasks:'我的任务'};
+function go(view){ state.view=view; renderC(); }
+function back(){ go(BACK[state.view]||'square'); }
+function openTask(id){ state.taskId=id; go('detail'); }
+function flowTask(){ return state.flow ? TASKS.find(t=>t.id===state.flow.taskId) || state.flow.task : null; }
+
+function renderC(){
+  const v=state.view;
+  $('#navbar').innerHTML =
+    '<button class="back" onclick="back()" '+(v==='square'||v==='profile'?'style="visibility:hidden"':'')+'>‹</button>'+
+    '<div class="title">'+TITLES[v]+'</div><div class="right"></div>';
+  const box=$('#appScreen');
+  if(v==='square') box.innerHTML=viewSquare();
+  else if(v==='detail') box.innerHTML=viewDetail();
+  else if(v==='gate') box.innerHTML=viewGate();
+  else if(v==='sign') box.innerHTML=viewSign();
+  else if(v==='active') box.innerHTML=viewActive();
+  else if(v==='acceptance') box.innerHTML=viewAcceptance();
+  else if(v==='settlement') box.innerHTML=viewSettlement();
+  else if(v==='record') box.innerHTML=viewRecord();
+  else if(v==='profile') box.innerHTML=viewProfile();
+  else if(v==='appeal') box.innerHTML=viewAppeal();
+  else if(v==='rules') box.innerHTML=viewRules();
+  else if(v==='mytasks') box.innerHTML=viewMyTasks();
+  const active = (v==='profile')?'p':(v==='mytasks'||v==='active'||v==='acceptance'||v==='settlement')?'m':'s';
+  $('#tabbar').innerHTML =
+    '<div class="'+(active==='s'?'active':'')+'" onclick="go(\'square\')"><span class="ico">🗂</span>广场</div>'+
+    '<div class="'+(active==='m'?'active':'')+'" onclick="go(state.flow?\'active\':\'mytasks\')"><span class="ico">🧾</span>任务</div>'+
+    '<div class="'+(active==='p'?'active':'')+'" onclick="go(\'profile\')"><span class="ico">👤</span>我的</div>';
+}
+
+function viewSquare(){
+  let h='<div class="notice">口径：🟢 高＝项目外包/承揽 · 🟡 中＝现场型承揽（本轮）· 🔴 低＝全日制（不入交易）。以下均为 🟡 卡（示例）。</div>';
+  h+='<div class="sec-t">附近任务（按匹配度排序）</div>';
+  TASKS.forEach(t=>{
+    const rej=state.rejected[t.id]!==undefined;
+    const done=state.flow&&state.flow.taskId===t.id&&state.flow.stage==='settled';
+    const badge = done?'<span class="chip t">已完成</span>' : rej?'<span class="chip gray">已拒绝 · 零代价</span>' : '<span class="chip b">可接单</span>';
+    h+='<div class="card tap" onclick="openTask(\''+t.id+'\')" style="'+(rej?'opacity:.72':'')+'">'+
+       '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span class="chip y">'+t.chip+'</span>'+badge+'</div>'+
+       '<div style="font-size:15px;font-weight:700;margin:8px 0 4px">'+t.title+'</div>'+
+       '<div class="muted">'+t.org+' · '+t.win+'</div>'+
+       '<div style="display:flex;justify-content:space-between;margin-top:8px;font-size:13px"><span style="color:#2f6bed;font-weight:700">'+t.pay+'</span><span class="muted">'+t.dist+'</span></div>'+
+       (rej?'<div class="muted" style="margin-top:6px">你拒绝过这个任务——它仍然可见、可再次接受（拒绝无惩罚）</div>':'')+
+       '</div>';
+  });
+  h+='<div class="notice" style="margin-top:4px">「未响应 ≠ 接受」：不点任何按钮不会自动成交，也不会影响信用。</div>';
+  return h;
+}
+
+function viewDetail(){
+  const t=TASKS.find(x=>x.id===state.taskId); if(!t) return '<div class="empty">任务不存在</div>';
+  const inFlow = state.flow && ['gate','signed','onsite','submitted','accepted','rework'].includes(state.flow.stage);
+  let h='<div class="card">'+
+    '<div><span class="chip y">'+t.chip+'</span>'+(state.rejected[t.id]!==undefined?'<span class="chip gray">你已拒绝过</span>':'')+'</div>'+
+    '<div style="font-size:17px;font-weight:800;margin:8px 0 4px">'+t.title+'</div>'+
+    '<div class="muted">'+t.org+' · '+t.dist+'</div></div>'+
+    '<div class="card">'+
+    kv('任务内容',t.desc)+kv('时段窗口',t.win)+kv('计价方式',t.pay)+
+    kv('验收标准',t.std.join('；'))+kv('资质要求',t.req)+
+    '<div class="muted" style="margin-top:8px">'+t.note+'</div></div>'+
+    '<div class="warn">本任务按<b>成果</b>验收计酬：无过程管理、无请假审批（不想做就不接）、不到岗不惩罚。</div>';
+  if(state.flow&&state.flow.taskId===t.id){
+    h+='<div class="notice">你与该任务已有关联：'+stageLabel(state.flow.stage)+'</div>'+
+       '<button class="btn primary block" onclick="resume()">回到任务</button>';
+  } else if(inFlow){
+    h+='<div class="warn">你还有一个进行中的任务，先完成它再接收新任务。</div>';
+  } else {
+    h+='<div class="row" style="margin-top:4px"><button class="btn primary" onclick="acceptTask()">接受任务</button><button class="btn danger" onclick="openRejectSheet()">暂不接（拒绝）</button></div>'+
+       '<div class="muted" style="text-align:center;margin-top:8px">接受或拒绝都是你的自由，两种选择都不会带来惩罚</div>';
+  }
+  return h;
+}
+function kv(k,v){ return '<div class="kv"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>'; }
+function stageLabel(s){ return {gate:'待签约',signed:'履约中',onsite:'履约中',submitted:'等待验收',accepted:'验收通过',rework:'被退回（返工中）',settled:'已完成并结算'}[s]||s; }
+
+function acceptTask(){ state.flow={taskId:state.taskId,stage:'gate'}; vol('接受「'+TASKS.find(t=>t.id===state.taskId).title+'」· 行动自由留痕'); go('gate'); }
+function resume(){ const s=state.flow.stage; go(s==='gate'?'gate':s==='sign'?'sign':'active'); }
+function openRejectSheet(){
+  const t=TASKS.find(x=>x.id===state.taskId);
+  $('#sheetBox').innerHTML=
+    '<div style="font-size:15px;font-weight:700;margin-bottom:6px">确认拒绝「'+t.title+'」？</div>'+
+    '<div class="notice" style="margin:8px 0">拒绝<b>零代价</b>：不降权、不扣分、不收费、不影响后续任务的可见性；不响应也不会自动成交。</div>'+
+    '<div class="muted">拒绝理由（选填 · 不公开 · 不进入评分）</div>'+
+    '<select id="rejReason"><option>不填理由</option><option>时段冲突</option><option>距离太远</option><option>资质不符</option><option>报酬不合适</option></select>'+
+    '<div class="row" style="margin-top:6px"><button class="btn ghost" onclick="closeSheet()">再想想</button><button class="btn danger" onclick="confirmReject()">确认拒绝</button></div>';
+  $('#sheet').classList.add('open');
+}
+function closeSheet(){ $('#sheet').classList.remove('open'); }
+function confirmReject(){
+  const r=$('#rejReason')?$('#rejReason').value:'不填理由';
+  const t=TASKS.find(x=>x.id===state.taskId);
+  state.rejected[t.id]=r;
+  vol('拒绝「'+t.title+'」· 理由：'+r+' · 零代价');
+  closeSheet(); go('square');
+  toast('已拒绝 · 不影响信用与任务可见性');
+}
+
+function viewGate(){
+  return '<div class="notice">接单前置校验（门禁）：不通过的项不可开工——这是合规设计，不是歧视。</div>'+
+    '<div class="check">🪪 实名认证<span class="ok">已通过</span></div>'+
+    '<div class="check">🎓 资质认证（'+(flowTask().req)+'）<span class="ok">已通过</span></div>'+
+    '<div class="check">🛟 保险匹配（意外/责任险 · 按容器配置）<span class="ok">已匹配</span></div>'+
+    '<div class="check">📄 承揽协议<span class="ok" style="color:#b7791f">待签署</span></div>'+
+    '<button class="btn primary block" onclick="go(\'sign\')">去签署协议（最后一步）</button>';
+}
+function viewSign(){
+  return '<div class="card"><div class="h2">承揽服务协议（摘要 · 示例）</div>'+
+    '<div class="kv"><span class="k">关系性质</span><span class="v">民事承揽 · 非劳动关系</span></div>'+
+    '<div class="kv"><span class="k">计酬方式</span><span class="v">按成果计酬，验收后结算</span></div>'+
+    '<div class="kv"><span class="k">接单自由</span><span class="v">可拒绝；无最低接单量要求</span></div>'+
+    '<div class="kv"><span class="k">管理边界</span><span class="v">无请假审批 · 无考勤打卡 · 无惩罚扣款</span></div>'+
+    '<div class="kv"><span class="k">验收与申诉</span><span class="v">验收标准前置公开；不通过可申诉</span></div>'+
+    '<div class="kv"><span class="k">个人信息</span><span class="v">最小必要采集</span></div></div>'+
+    '<label class="check" style="cursor:pointer"><input type="checkbox" id="know"> 我已阅读并知悉上述条款（条款知情确认）</label>'+
+    '<button class="btn primary block" id="signBtn" onclick="doSign()">电子签署（含可信时间戳）</button>'+
+    '<div class="muted" style="text-align:center;margin-top:8px">签署全链路日志将计入证据链 · 协议全文可随时查看下载</div>';
+}
+function doSign(){
+  if(!$('#know').checked){ toast('请先勾选「条款知情确认」'); return; }
+  ev('协议流','电子签署《承揽服务协议》· 含条款知情确认','签署全链路日志 + 可信时间戳');
+  state.flow.stage='signed';
+  toast('签署完成 · 已写入证据链');
+  go('active');
+}
+
+function viewActive(){
+  const t=flowTask(); const s=state.flow.stage;
+  let h='<div class="card"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="chip y">'+t.chip+'</span><span class="chip b">'+stageLabel(s)+'</span></div>'+
+    '<div style="font-size:15px;font-weight:700;margin:8px 0 2px">'+t.title+'</div><div class="muted">'+t.org+' · '+t.win+'</div></div>';
+  const done=k=>['signed','onsite','submitted','accepted','rework','settled'].includes(s)&&k;
+  h+='<div class="card"><div class="h2">履约进度</div><ul class="steps">'+
+    '<li class="done"><span class="n">✓</span>已签约（承揽协议）</li>'+
+    '<li class="'+(s==='signed'?'now':'')+(s!=='signed'?' done':'')+'"><span class="n">'+(s==='signed'?'2':'✓')+'</span>到岗确认（仅确认级 · 记录履约证据）</li>'+
+    '<li class="'+(['onsite'].includes(s)?'now':'')+(['submitted','accepted','rework','settled'].includes(s)?' done':'')+'"><span class="n">3</span>履约与成果提交</li>'+
+    '<li class="'+(['submitted'].includes(s)?'now':'')+(['accepted','settled'].includes(s)?' done':'')+'"><span class="n">4</span>验收</li>'+
+    '<li class="'+(['accepted'].includes(s)?'now':'')+((s==='settled')?' done':'')+'"><span class="n">5</span>结算</li></ul>';
+  if(s==='signed') h+='<button class="btn primary block" onclick="arrive()">到岗确认（示例：距店 80m）</button>';
+  else if(s==='onsite'){
+    h+='<div class="muted" style="margin:4px 0 8px">提交成果（照片 ×3，示例）</div><div class="photos">';
+    for(let i=0;i<3;i++) h+= i<state.photos?'<div class="ph">🖼</div>':'<div class="ph empty">＋</div>';
+    h+='</div>';
+    if(state.photos<3) h+='<button class="btn ghost block" onclick="addPhoto()" style="margin-bottom:8px">添加照片（'+state.photos+'/3）</button>';
+    h+='<button class="btn green block" '+(state.photos<3?'disabled':'')+' onclick="submitResult()">提交成果，等待验收</button>';
+  } else if(s==='submitted') h+='<div class="notice">已提交，等待门店验收。切到「B 端 · 门店」→ 验收台操作（演示闭环）。</div>';
+  else if(s==='rework'){ h+='<div class="warn">验收未通过：请按说明返工后重新提交（<b>不扣款</b>）。你也可以直接提出申诉。</div>'+
+    '<div class="row"><button class="btn primary" onclick="resubmit()">重新提交成果</button><button class="btn ghost" onclick="go(\'appeal\')">提出申诉</button></div>'; }
+  else if(s==='accepted') h+='<div class="notice">验收已通过 ✅ 去看看验收结果与结算。</div><button class="btn primary block" onclick="go(\'acceptance\')">查看验收结果</button>';
+  else if(s==='settled') h+='<div class="notice">任务已完成并结算 ✅</div><button class="btn primary block" onclick="go(\'settlement\')">查看结算明细</button>';
+  h+='<div class="muted" style="margin-top:10px">红线提示：本页面没有请假审批、没有考勤打卡、没有惩罚扣款入口（系统层做不到）。</div>';
+  return h+'</div>';
+}
+function arrive(){ state.flow.stage='onsite'; ev('履约流','到岗确认 · LBS 距店 80m（仅确认级，不考核）'); toast('已记录到岗确认（履约证据）'); renderC(); }
+function addPhoto(){ if(state.photos<3){state.photos++; renderC();} }
+function submitResult(){ state.flow.stage='submitted'; ev('履约流','成果提交 · 照片 ×'+state.photos+' + 提交时间戳'); toast('成果已提交，等待门店验收'); renderC(); renderB(); }
+function resubmit(){ state.photos=0; state.flow.stage='onsite'; toast('已进入返工流程（示例）'); renderC(); }
+
+function viewAcceptance(){
+  return '<div class="card"><div class="h2">验收结果</div>'+
+    '<div class="kv"><span class="k">验收方式</span><span class="v">店长确认 ＋ AI 初判</span></div>'+
+    '<div class="kv"><span class="k">AI 初判</span><span class="v">排面完整度 92%（建议通过）</span></div>'+
+    '<div class="kv"><span class="k">人工确认</span><span class="v">店长 已通过</span></div>'+
+    '<div class="kv"><span class="k">证据</span><span class="v">成果照片 ×3 · 时间戳</span></div></div>'+
+    '<div class="notice">AI 仅作<b>验收辅助</b>：低置信度自动转人工；照片仅作验收证据，不做过程监控。</div>'+
+    '<button class="btn primary block" onclick="go(\'settlement\')">查看结算明细</button>'+
+    '<button class="btn ghost block" style="margin-top:8px" onclick="go(\'appeal\')">我对验收有异议（申诉）</button>';
+}
+function viewSettlement(){
+  if(state.flow&&state.flow.stage==='accepted'){ /* 首次进入结算页时生成资金/票据流证据 */
+    ev('资金流','结算单生成 · 报酬 ¥68.00 · 报酬明细清单已推送');
+    ev('票据流','个税累计预扣记录（示例 ¥2.04）· 税前扣除材料留存');
+    state.flow.stage='settled';
+  }
+  return '<div class="card"><div class="h2">报酬明细清单（示例）</div>'+
+    '<div class="kv"><span class="k">任务报酬</span><span class="v">¥68.00</span></div>'+
+    '<div class="kv"><span class="k">费用构成</span><span class="v">任务定价 ¥68 · 无其他扣费</span></div>'+
+    '<div class="kv"><span class="k">个税（累计预扣 · 示例）</span><span class="v">− ¥2.04</span></div>'+
+    '<div class="kv"><span class="k"><b>实发</b></span><span class="v"><b>¥65.96</b></span></div>'+
+    '<div class="kv"><span class="k">到账状态</span><span class="v" style="color:#0d9488;font-weight:700">已到账</span></div></div>'+
+    '<div class="notice">结算周期符合合规要求；平台<b>不以「结算速度」收费</b>——按时结算是底线，不是特权。</div>'+
+    '<div class="row"><button class="btn ghost" onclick="go(\'record\')">我的工作记录</button><button class="btn primary" onclick="go(\'square\')">回到广场</button></div>';
+}
+function viewRecord(){
+  const n=state.evidence.length;
+  let h='<div class="card"><div class="h2">我的工作记录（台账）</div>'+
+    '<div class="muted">任务 / 时段 / 报酬 / 验收 / 协议 一页聚合 · <b>退出后 ≥ 2 年留存</b> · 随时可查询、下载（对齐新规第二十三条）</div>';
+  TASKS.forEach(t=>{
+    if(state.flow&&state.flow.taskId===t.id){
+      const s=state.flow.stage;
+      h+='<div class="kv"><span class="k">'+t.title+'</span><span class="v">'+stageLabel(s)+' · '+t.pay+'</span></div>';
+    }
+  });
+  Object.keys(state.rejected).forEach(id=>{
+    const t=TASKS.find(x=>x.id===id);
+    const isFlow=state.flow&&state.flow.taskId===id;
+    if(t&&!isFlow) h+='<div class="kv"><span class="k">'+t.title+'</span><span class="v" style="color:#98a0ad">已拒绝（零代价 · 已留痕）</span></div>';
+  });
+  h+='<div class="muted" style="margin-top:8px">四流存证：'+n+' 条 · 自愿意愿记录：'+state.voluntary.length+' 条</div></div>'+
+  '<button class="btn primary block" onclick="downloadRecord()">下载《工作记录》（含存证索引）</button>'+
+  '<div class="muted" style="text-align:center;margin-top:8px">下载能力由平台提供；法定台账义务由用工主体履行（平台＝记录者定位）</div>';
+  return h;
+}
+function downloadRecord(){ toast('已生成《工作记录》（含四流存证索引）— 示例'); }
+function exportEvidence(){ toast('证据包已导出（示例）：协议 / 履约 / 资金 / 票据 ＋ 自愿性记录'); }
+
+function viewProfile(){
+  return '<div class="card" style="display:flex;gap:12px;align-items:center">'+
+    '<div style="width:52px;height:52px;border-radius:50%;background:#e3ecfd;display:grid;place-items:center;font-size:22px">👤</div>'+
+    '<div><div style="font-weight:700">李 辛（示例）</div><div class="muted"><span class="chip t">实名已认证</span><span class="chip b">理货 SOP</span><span class="chip b">食安基础</span></div></div></div>'+
+    '<div class="menu-wrap">'+
+    '<div class="menu-item" onclick="go(\'record\')">🗂 我的工作记录<span class="arr">›</span></div>'+
+    '<div class="menu-item" onclick="go(\'rules\')">📢 规则公示（劳动规则摘要）<span class="arr">›</span></div>'+
+    '<div class="menu-item" onclick="go(\'appeal\')">🛟 申诉与帮助<span class="arr">›</span></div>'+
+    '<div class="menu-item">⏰ 休息提示（连续作业 4 小时提醒）<span class="arr" style="color:#0d9488;font-weight:600">已开启</span></div>'+
+    '<div class="menu-item">🔒 隐私与个人信息（最小必要采集）<span class="arr">›</span></div>'+
+    '</div>'+
+    '<div class="muted" style="text-align:center">原型 v0.1 · 演示数据 · 非真实服务</div>';
+}
+function viewAppeal(){
+  return '<div class="notice">申诉通道（示例）：验收异议、报酬疑问、行为记录争议等，均可在此提交——<b>48 小时内人工答复</b>（不得纯算法答复）；异议成立即纠正。</div>'+
+  '<textarea rows="4" placeholder="描述你的问题（示例输入框）" style="width:100%;border:1px solid #ddd8cc;border-radius:12px;padding:10px;font-family:inherit;font-size:13px;background:#fff"></textarea>'+
+  '<button class="btn primary block" style="margin-top:10px" onclick="toast(\'申诉已提交（示例）· 承诺 48 小时内人工答复\')">提交申诉</button>'+
+  '<div class="card" style="margin-top:14px"><div class="h2">历史申诉（示例）</div>'+
+  '<div class="kv"><span class="k">2026-10-03 · 验收异议</span><span class="v" style="color:#0d9488">已解决</span></div>'+
+  '<div class="kv"><span class="k">2026-09-21 · 报酬明细疑问</span><span class="v" style="color:#0d9488">已解决</span></div></div>';
+}
+function viewRules(){
+  return '<div class="card"><div class="h2">劳动规则摘要（公示 · 示例）</div>'+
+  '<ul style="margin-left:18px;font-size:13px">'+
+  '<li>接单完全自由：可拒绝、拒绝零代价；未响应不视为接受</li>'+
+  '<li>计酬与结算：按成果计价，报酬明细清单随结算推送</li>'+
+  '<li>验收与申诉：标准前置公开；不通过可返工或申诉</li>'+
+  '<li>管理边界：无请假审批、无考勤打卡、无惩罚扣款</li>'+
+  '<li>算法说明：匹配与推荐逻辑可解释；重大不利决定人工复核</li>'+
+  '<li>个人信息：最小必要采集，不采集情绪与生物特征</li></ul>'+
+  '<div class="muted" style="margin-top:8px">规则修订将提前公示（≥7 日）并推送通知（对齐新规要求）</div></div>';
+}
+function viewMyTasks(){
+  if(!state.flow) return '<div class="empty">暂无进行中的任务<br>去「广场」接一单试试</div>';
+  const t=flowTask();
+  return '<div class="card tap" onclick="go(\'active\')"><div style="display:flex;gap:8px;flex-wrap:wrap"><span class="chip y">'+t.chip+'</span><span class="chip b">'+stageLabel(state.flow.stage)+'</span></div>'+
+    '<div style="font-weight:700;margin:8px 0 2px">'+t.title+'</div><div class="muted">'+t.win+' · '+t.pay+'</div></div>';
+}
+
+/* ---------- B 端渲染 ---------- */
+function renderB(){
+  document.querySelectorAll('#bside div').forEach(d=>d.classList.toggle('active',d.dataset.v===state.bview));
+  const m=$('#bmain'); const v=state.bview;
+  if(v==='publish'){
+    let h='<div class="h2">发单大厅 · 从任务卡库发布</div><div class="muted" style="margin-bottom:10px">任务卡模板即合规：容器 / 定价 / 验收标准已预置，门店不能改红线项。</div>';
+    LIB.forEach((c,i)=>{
+      h+='<div class="rule-row" style="cursor:pointer" onclick="pickCard('+i+')"><span style="font-size:16px">'+(state.pubCard===i?'🔘':'⚪️')+'</span><div><div style="font-weight:600">'+c.title+'</div><div class="muted">'+c.pay+' · 资质：'+c.req+'</div></div><span class="chip y" style="margin-left:auto">🟡 现场型承揽</span></div>';
+    });
+    h+='<div class="muted">时段窗口</div><input id="pubWin" value="'+state.pubWin+'" style="width:100%;border:1px solid #ddd8cc;border-radius:10px;padding:9px;font-size:13px;margin:8px 0;background:#fdfdfb">'+
+      '<button class="btn primary" onclick="publish()">发布任务 → 进入 C 端广场</button>';
+    m.innerHTML=h;
+  } else if(v==='review'){
+    const f=state.flow;
+    if(!f||!['submitted','rework'].includes(f.stage)) {
+      m.innerHTML='<div class="h2">验收台</div><div class="empty">暂无待验收任务<br>去 C 端提交成果后，这里会出现待办（演示闭环）</div>';
+      return;
+    }
+    const t=flowTask();
+    m.innerHTML='<div class="h2">验收台 · 待确认（1）</div>'+
+      '<div class="card"><div style="font-weight:700;margin-bottom:6px">'+t.title+' <span class="chip b">待验收</span></div>'+
+      '<div class="muted">'+t.org+' · 提交人：李 辛（示例）</div>'+
+      '<div class="photos">'+'<div class="ph">🖼</div>'.repeat(3)+'</div>'+
+      '<div class="notice">AI 初判：排面完整度 <b>92%</b>（建议通过）· 置信度达阈值，可人工一键确认；低置信度会自动转人工</div>'+
+      '<div class="row"><button class="btn green" onclick="bVerify(true)">确认通过</button><button class="btn ghost" onclick="bVerify(false)">退回返工</button></div>'+
+      '<div class="muted" style="margin-top:8px">退回不扣款；争议进入申诉流程</div></div>';
+  } else {
+    const flows=['协议流','履约流','资金流','票据流'];
+    let h='<div class="h2">合规视图（示例门店）</div>';
+    h+='<div class="card"><div class="h2">本次任务 · 四流齐套</div>';
+    flows.forEach(fl=>{ const ok=state.evidence.some(e=>e.flow===fl); h+='<div class="kv"><span class="k">'+fl+'</span><span class="v" style="color:'+(ok?'#0d9488':'#98a0ad')+';font-weight:700">'+(ok?'✓ 已齐套':'— 未产生')+'</span></div>'; });
+    h+='</div>';
+    h+='<div class="card"><div class="h2">红线动作（系统层不可启用）</div>';
+    ['强制派单 / 不可拒单','请假审批','考勤式打卡','惩罚性扣款','固定底薪＋奖励结构'].forEach(x=>{
+      h+='<div class="rule-row">🚫 '+x+'<span class="switch on"></span></div>';
+    });
+    h+='<div class="muted">以上开关在产品层<b>不存在「启用」状态</b>——不是事后审计，是配置层做不到。</div></div>';
+    h+='<div class="card"><div class="h2">依赖度提示（示例 · 10-12 收敛）</div><div class="kv"><span class="k">两轨并行检查</span><span class="v" style="color:#0d9488;font-weight:700">✓ 未发现</span></div><div class="kv"><span class="k">关联主体交叉</span><span class="v" style="color:#0d9488;font-weight:700">✓ 无交叉</span></div><div class="kv"><span class="k">强度 / 持续性</span><span class="v">低权重提示项</span></div><div class="muted">非违规检测：仅提示「依赖度与持续性」供复核；纯派单模式无小时上限，不存在「拆店规避」问题。</div></div>';
+    m.innerHTML=h;
+  }
+}
+function pickCard(i){ state.pubCard=i; const w=$('#pubWin'); if(w) state.pubWin=w.value; renderB(); }
+function publish(){
+  if(state.pubCard===null){ toast('先选一张任务卡'); return; }
+  const c=LIB[state.pubCard];
+  const w=$('#pubWin'); const win=w&&w.value?w.value:state.pubWin;
+  state.pubSeq++;
+  TASKS.unshift({id:'pub'+state.pubSeq,chip:'🟡 现场型承揽',title:c.title,org:'每一天 · 雁塔路店（示例 · 新发布）',win:win,pay:c.pay+'（按成果计价）',dist:'距你 0.8 km',
+    desc:'门店新发布（示例）：'+c.title+'。',std:['按任务卡标准验收'],req:c.req,note:'门店不得修改红线项（无处罚条款、无过程考核）',status:'open'});
+  toast('已发布 · 任务实时进入 C 端广场（示例）');
+  renderB(); renderC();
+}
+function bVerify(pass){
+  if(pass){
+    state.flow.stage='accepted';
+    ev('履约流','验收通过 · 店长确认 ＋ AI 初判（置信度 92%）');
+    toast('已通过验收 · C 端将看到结果与结算入口');
+  } else {
+    state.flow.stage='rework';
+    ev('履约流','验收退回（返工）· 不扣款');
+    toast('已退回返工 · 不产生任何扣款');
+  }
+  renderB(); renderC();
+}
+
+/* ---------- A/S 端渲染 ---------- */
+const APKGS=[
+ {id:'p1',title:'月度盘点 · 12 店（示例）',pay:'对公 · ¥2,400 / 次',req:'营业执照 ＋ 盘点服务资质（示例）',desc:'按各店盘点 SOP 执行，出具差异报告（>1% 复盘）。'},
+ {id:'p2',title:'闭店深清 · 6 店（示例）',pay:'对公 · ¥1,800 / 次',req:'保洁服务资质（示例）',desc:'闭店后深度清洁与消杀，按店验收。'}
+];
+const ASTAGE={accepted:'已接单',contracted:'已签约',submitted:'成果已提交',verified:'验收通过',done:'已结算开票'};
+function asOpen(id){ state.aflow={pkgId:id,stage:'accepted'}; renderA(); }
+function asSign(){ ev('协议流','A/S · 承接方电子签署《项目外包服务协议》（对公）· 含成果验收条款'); state.aflow.stage='contracted'; renderA(); renderE(); }
+function asSubmit(){ ev('履约流','A/S · 成果提交：盘点差异报告（差异率 0.6%）'); state.aflow.stage='submitted'; renderA(); renderE(); }
+function asVerify(){ ev('履约流','A/S · 验收通过：差异率 0.6% ≤ 阈值 1%（门店确认）'); state.aflow.stage='verified'; renderA(); renderE(); }
+function asSettle(){ ev('资金流','A/S · 对公结算 ¥2,400 · 按合同节点支付'); ev('票据流','A/S · 增值税发票已开具（数电票 · 示例）'); state.aflow.stage='done'; renderA(); renderE(); }
+function asReset(){ state.aflow=null; renderA(); }
+function renderA(){
+  const m=$('#amain'); if(!m) return;
+  const f=state.aflow;
+  if(!f){
+    let h='<div class="h2">项目包大厅 <span class="chip t">🟢 项目外包/承揽 · 优先对公司</span></div>';
+    APKGS.forEach(p=>{
+      h+='<div class="card"><div style="font-weight:700">'+p.title+'</div><div class="muted">'+p.pay+' · 资质：'+p.req+'</div><div style="font-size:13px;margin:6px 0">'+p.desc+'</div>'+
+         '<div class="row"><button class="btn primary" onclick="asOpen(\''+p.id+'\')">接单（可拒单 / 可议价）</button></div></div>';
+    });
+    h+='<div class="warn">平台红线：不向承接方人员派单、排班、考核——「人员派单管理」功能在产品中不存在（假外包真派遣禁令）。</div>';
+    m.innerHTML=h; return;
+  }
+  const p=APKGS.find(x=>x.id===f.pkgId);
+  let h='<div class="h2">'+p.title+' <span class="chip b">'+ASTAGE[f.stage]+'</span></div>';
+  if(f.stage==='accepted') h+='<div class="notice">接单成功（本演示为接受；承接方同样可拒单）。下一步：签署对公协议。</div><button class="btn primary" onclick="asSign()">签署《项目外包服务协议》</button>';
+  else if(f.stage==='contracted') h+='<div class="notice">履约中：用自有组织与工具完成，平台不做过程管理。</div><button class="btn primary" onclick="asSubmit()">提交成果（盘点差异报告）</button>';
+  else if(f.stage==='submitted') h+='<div class="notice">等待门店验收（差异率 ≤ 1% 通过）。</div><button class="btn green" onclick="asVerify()">客户验收确认（演示）</button>';
+  else if(f.stage==='verified') h+='<div class="notice">验收通过 ✅ 下一步：对公结算与开票。</div><button class="btn primary" onclick="asSettle()">结算 ¥2,400 并开票（示例）</button>';
+  else h+='<div class="notice">项目包完成：结算与发票已写入证据链（去 ④ 证据链 查看）。</div><button class="btn ghost" onclick="asReset()">返回大厅（再演示一次）</button>';
+  h+='<div class="warn" style="margin-top:10px">履约期间平台只提供：成果验收、结算通道、证据记录——没有过程指挥、没有人员考勤。</div>';
+  m.innerHTML=h;
+}
+
+/* ---------- 证据链渲染 ---------- */
+function renderE(){
+  $('#evCount').textContent=state.evidence.length+' 条';
+  const tag={'协议流':'a','履约流':'b','资金流':'c','票据流':'d'};
+  if(state.evidence.length){
+    let h='<div class="tl">';
+    state.evidence.forEach((e,i)=>{
+      h+='<div class="tl-item f-'+tag[e.flow]+'"><span class="dot"></span><div><span class="tl-time">'+e.t+'</span> <span class="tl-tag tag-'+tag[e.flow]+'">'+e.flow+'</span></div><div>'+e.text+'</div>'+(e.extra?'<div class="muted">'+e.extra+'</div>':'')+'</div>';
+    });
+    $('#timeline').innerHTML=h+'</div>';
+  } else {
+    $('#timeline').innerHTML='<div class="empty">还没有记录 —— 先在 ① C 端 做几个动作，这里会实时累积（四流默认开启、不可关闭、只追加不修改）</div>';
+  }
+  if(state.voluntary.length){
+    let h='';
+    state.voluntary.forEach(v=>{ h+='<div class="kv"><span class="k">'+v.t+'</span><span class="v">'+v.text+'</span></div>'; });
+    $('#volList').innerHTML=h;
+  } else {
+    $('#volList').innerHTML='<div class="empty">接受 / 拒绝 行为将在此留痕</div>';
+  }
+  const f=state.flow;
+  const stageNames={gate:'待签约',signed:'履约中',onsite:'履约中',submitted:'等待验收',accepted:'验收通过',rework:'返工中',settled:'已结算'};
+  $('#smBox').innerHTML='<div class="h2">当前任务状态机</div>'+
+    (f?
+      '<div class="kv"><span class="k">任务</span><span class="v">'+flowTask().title+'</span></div>'+
+      '<div class="kv"><span class="k">当前状态</span><span class="v"><span class="chip b">'+(stageNames[f.stage]||f.stage)+'</span></span></div>'+
+      '<div class="kv"><span class="k">红线动作发生</span><span class="v" style="color:#0d9488;font-weight:700">0 次</span></div>'
+      : '<div class="empty">去 C 端接受一个任务后显示</div>')+
+    (state.aflow? '<div class="kv"><span class="k">项目包（A/S）</span><span class="v">'+APKGS.find(x=>x.id===state.aflow.pkgId).title+' · '+ASTAGE[state.aflow.stage]+'</span></div>' : '')+
+    '<div class="muted">状态迁移每一步 = 一条证据记录（只追加不可改）</div>';
+}
+
+/* ---------- ⑤ 平台视角 ---------- */
+function kvrow(k,v){ return '<div class="kv"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>'; }
+function renderP(){
+  const m=$('#pmain'); if(!m) return;
+  let h='<div class="h2">租户与法人实体</div><div class="card">'+
+    kvrow('每一天（西安）','门店场景 · 直营 ＋ 加盟（2/3）→ 加盟子租户：<b>只读赋能</b>（规则/任务卡/标准下推，不代运营）')+
+    kvrow('壹度（安徽砀山/宿州）','仓配峰值 ＋ 食品产线 · 四主体：总部 / 配送 / 冰峰 / 直营，按实体分账')+
+    kvrow('示例新客户（预演）','配置交付：订阅场景模板包 ＋ 建覆盖层（周级，不改内核代码）')+
+    '<div class="muted" style="margin-top:8px">三层隔离：平台层（共享）｜租户层（逻辑隔离）｜实体层（按 LegalEntity 分账）；<b>铁律：合同主体＝用工主体＝发薪主体</b>（模型层强制，跨主体结构无法生成）。</div></div>';
+  h+='<div class="h2">规则包与参数卡</div><div class="card">'+
+    kvrow('规则包（示例）','当前 v1.2 · 声明式规则 ＋ 回归测试用例（防「配置错＝合规失效」）')+
+    kvrow('参数卡 · 西安一类区','最低时薪 23 元 [A] · 2026-01-01 起生效')+
+    kvrow('参数卡 · 安徽','宿州 22 元 / 砀山 21 元 [A]')+
+    kvrow('时效管理','<span class="chip y">到期前 30 天自动告警</span> 使用前先核实时效（项目纪律）')+
+    '</div>';
+  h+='<div class="h2">红线治理（系统层不可启用）</div><div class="card">'+
+    ['强制派单 / 不可拒单','请假审批','考勤式打卡','惩罚性扣款','固定底薪＋奖励结构'].map(x=>'<div class="rule-row">🚫 '+x+'<span class="switch on"></span></div>').join('')+
+    '<div class="muted" style="margin:6px 0 8px">以上开关在产品层<b>不存在「启用」状态</b>（黑名单动作）。</div>'+
+    kvrow('审计日志（示例）','10-12 09:31 规则包 v1.2 发布（平台运营）｜09:15 参数卡刷新 · 复核通过｜08:47 <b style="color:#b42318">拦截一次配置尝试：请假审批 → 被拒</b>')+
+    '</div>';
+  h+='<div class="h2">计费与对账</div><div class="card">'+
+    kvrow('本租户本月（示例）','结算额 × 6.8%（国内锚点区间 6.8–7% [A/D]）· 已对账')+
+    kvrow('计费禁令','不得以「结算速度」收费——按时结算是合规底线，不是付费特权')+
+    '</div>';
+  h+='<div class="h2">供给池与监控大盘</div><div class="card">'+
+    kvrow('供给分层','私域熟手（优先复聘）｜公域｜跨店共享池（多主体 · 真自主接单）；门店带熟手＋平台池化运营（混合模式）')+
+    kvrow('对客户开放','<span class="chip b">可配置开关</span> 是否开放、开放多少均可调（如店长可见「本店可复聘名单」）')+
+    kvrow('大盘指标','<span class="chip b">可配置项</span> 演示默认 7 项，可随时增删/调整口径')+
+    '<div class="chips" style="margin-top:8px"><span class="chip t">合规率 100%</span><span class="chip t">黑名单动作 0</span><span class="chip t">争议 0</span><span class="chip t">复聘率 68%（示例）</span><span class="chip t">高峰缺岗率 4%（示例）</span><span class="chip b">本次演示证据 '+state.evidence.length+' 条</span></div>'+
+    '<div class="muted" style="margin-top:8px">匹配不是护城河——供给存在性才是；复聘率比 fill rate 更关键 [D]。</div></div>';
+  m.innerHTML=h;
+}
+
+/* ---------- ⑥ 合规审查台 ---------- */
+function auditElems(sel){
+  return [
+    ['工作时间与工作量自主决定', sel==='c'?'✓ 自主接单、可拒绝、未响应不成交':'✓ 承接方自主组织与安排'],
+    ['实时指派 / 不可拒单','✓ 无（可拒为默认；无强制派单）'],
+    ['考勤与请假审批','✓ 无（仅到岗确认，非考勤；不接单即可）'],
+    ['过程管理 / 时限考核','✓ 无（按成果验收）'],
+    ['组织融入要求','✓ 平台侧无对应功能（不作组织管理）'],
+    ['固定底薪 ＋ 奖励结构', sel==='c'?'✓ 无（按成果计价）':'✓ 无（按合同节点支付）'],
+    ['算法强制与惩罚','✓ 无（建议制；评价可申诉、不挂钩收入）'],
+    ['生产资料与工具','— 按任务卡约定（标注即可）']
+  ];
+}
+function auditFlows(sel){
+  const evs=state.evidence.filter(e=> sel==='c' ? !e.text.startsWith('A/S') : e.text.startsWith('A/S'));
+  const flows=['协议流','履约流','资金流','票据流'].map(f=>[f, evs.filter(e=>e.flow===f).length]);
+  return {evs:evs, flows:flows};
+}
+function renderX(){
+  const m=$('#xmain'); if(!m) return;
+  const hasC=!!state.flow, hasA=!!state.aflow;
+  if(!hasC&&!hasA){ m.innerHTML='<div class="h2">合规审查台</div><div class="empty">还没有可体检的流程 —— 先去 ①（灵工）或 ③（承接方）完整走一遍，再回到这里生成「合规体检报告」（演示）</div>'; return; }
+  if(!hasC) state.auditSel='a'; if(!hasA) state.auditSel='c';
+  if(state.auditSel!=='a'&&state.auditSel!=='c') state.auditSel=hasC?'c':'a';
+  const sel=state.auditSel;
+  const title= sel==='c' ? 'C 端任务「'+flowTask().title+'」' : '项目包「'+APKGS.find(x=>x.id===state.aflow.pkgId).title+'」';
+  let h='<div class="h2">合规体检报告（演示 · '+title+'）</div>';
+  if(hasC&&hasA) h+='<div class="row" style="margin-bottom:10px"><button class="btn '+(sel==='c'?'primary':'ghost')+'" onclick="state.auditSel=\'c\';renderX()">体检 C 端任务</button><button class="btn '+(sel==='a'?'primary':'ghost')+'" onclick="state.auditSel=\'a\';renderX()">体检 A/S 项目包</button></div>';
+  h+='<div class="card"><div class="h2">① 三区校验</div>'+
+     kvrow('任务卡容器', sel==='c'?'<span class="chip y">🟡 现场型承揽</span>':'<span class="chip t">🟢 项目外包 / 承揽（对公）</span>')+
+     kvrow('判定来源','我方建议口径（与客户反馈口径并存、不混算；红线不可被运营偏好覆盖）')+
+     '</div>';
+  h+='<div class="card"><div class="h2">② 黑名单动作扫描</div>'+
+     ['强制派单 / 不可拒单','请假审批','考勤式打卡','惩罚性扣款','固定底薪＋奖励','算法惩罚挂钩收入'].map(x=>'<div class="kv"><span class="k">'+x+'</span><span class="v" style="color:#0d9488;font-weight:700">✓ 未出现</span></div>').join('');
+  const rej=Object.keys(state.rejected).length;
+  if(sel==='c'&&rej) h+='<div class="notice" style="margin-top:8px">演示中实际执行过 <b>'+rej+' 次拒单</b>——零代价、已留痕（自愿意愿记录）。</div>';
+  h+='</div>';
+  h+='<div class="card"><div class="h2">③ 判例要素勾稽（237–240 号 / 山东案要素 · 设计自检）</div>'+
+     auditElems(sel).map(function(p){ return '<div class="kv"><span class="k">'+p[0]+'</span><span class="v">'+p[1]+'</span></div>'; }).join('')+
+     '<div class="muted" style="margin-top:8px">⚠️ 从属性认定是<b>个案事实判断</b>；本表为设计对照演示，非个案法律意见。</div></div>';
+  const af=auditFlows(sel);
+  h+='<div class="card"><div class="h2">④ 四流完整性</div>'+
+     af.flows.map(function(p){ return '<div class="kv"><span class="k">'+p[0]+'</span><span class="v" style="color:'+(p[1]?'#0d9488':'#98a0ad')+';font-weight:700">'+(p[1]?'✓ '+p[1]+' 条':'— 未产生')+'</span></div>'; }).join('')+
+     '<div class="muted" style="margin-top:6px">四流默认开启、不可关闭、只追加不修改；共 '+af.evs.length+' 条记录。</div></div>';
+  h+='<div class="card"><div class="h2">⑤ 法规对照（摘 05 勾稽表）</div>'+
+     kvrow('第 13 条 报酬明细清单','<span class="chip t">已覆盖</span>')+
+     kvrow('第 14 条 禁惩罚性措施','<span class="chip t">已覆盖</span>（拒单零代价）')+
+     kvrow('第 17 条 连续 4h 休息','<span class="chip t">已覆盖</span>（休息提示）')+
+     kvrow('第 23 条 工作台账','<span class="chip y">需增强</span>（≥2 年留存＋可下载）')+
+     kvrow('第 29 条 重大决定人工复核','<span class="chip t">已覆盖</span>')+
+     kvrow('第 33 条 协议 11 项必备','<span class="chip y">需增强</span>（模板增补）')+
+     kvrow('第 36 条 禁规避用工责任','<span class="chip y">纪律强调</span>（「承揽非豁免」）')+
+     '</div>';
+  h+='<div class="card"><div class="h2">⑥ 依赖度提示（非违规项 · 低权重 · 10-12 收敛）</div>'+
+     kvrow('两轨并行检查','<span style="color:#0d9488;font-weight:700">✓ 未发现</span>（同一人全日制＋同主体接派单）')+
+     kvrow('关联主体交叉','<span class="muted">— 单一实体场景；多实体由规则引擎覆盖</span>')+
+     kvrow('强度 / 持续性','<span class="muted">低权重提示项（盯：是否向接近全职的强度漂移）</span>')+
+     '<div class="muted" style="margin-top:6px">纯派单模式无小时上限——本项不做「拆店规避」式违规检测，仅提示依赖度供复核参考。</div></div>';
+  h+='<div class="card"><div class="h2">⑦ 举证预检（争议级证据清单）</div>'+
+     kvrow('若明日进仲裁','现有 '+af.evs.length+' 条记录可形成证据包（演示）')+
+     kvrow('缺项检查','<span style="color:#0d9488;font-weight:700">✓ 无缺项</span>（协议/履约/资金/票据均可导出）')+
+     '<div class="muted" style="margin-top:6px">预检不判定性，只确保「能举证」这一侧不掉链子。</div></div>';
+  h+='<div class="card"><div class="h2">⑧ 参数时效</div>'+
+     kvrow('计酬参数（示例）','西安一类区最低时薪 23 元 [A] · 2026-01-01 起 · 现行有效')+
+     kvrow('告警状态','<span class="chip t">✓ 在有效期</span> 到期前 30 天自动告警（呼应参数卡机制）')+
+     '</div>';
+  h+='<div class="card"><div class="h2">⑨ 结论</div>'+
+     kvrow('体检结论','<b>九维通过</b>（①三区 ②黑名单 ③判例要素 ④四流 ⑤法规 ⑥依赖度 ⑦举证 ⑧参数时效）（演示口径）· 风险等级：<b style="color:#0d9488">低</b>')+
+     kvrow('待律师复核','现场型承揽定性 ｜ 保险口径（职业伤害/责任险）｜ 协议形态与 11 项条款')+
+     kvrow('表述纪律','三档（03 §22）：禁说「不构成劳动关系 / 零风险 / 法院会认可 / 已通过合规审查」')+
+     '<div class="muted" style="margin-top:6px">⚠️ 非法律意见；结论随用工事实变化。</div>'+
+     '<div class="row" style="margin-top:10px"><button class="btn primary" onclick="genAuditOut()">生成体检报告文本（可复制）</button></div>'+
+     '<textarea id="xOut" class="export-area" style="margin-top:10px" placeholder="点上方按钮生成可复制文本（发给 Claudian 讨论）"></textarea></div>';
+  m.innerHTML=h;
+}
+function genAuditOut(){
+  const sel=state.auditSel||'c';
+  const title= sel==='c' ? 'C 端任务「'+flowTask().title+'」' : 'A/S 项目包「'+APKGS.find(x=>x.id===state.aflow.pkgId).title+'」';
+  const af=auditFlows(sel);
+  const rej=Object.keys(state.rejected).length;
+  const L=['【合规体检报告（演示）】'+new Date().toLocaleString('zh-CN'),
+   '对象：'+title+'（容器：'+(sel==='c'?'🟡 现场型承揽':'🟢 项目外包/承揽')+'）',
+   '① 三区校验：通过（口径：我方建议，与客户反馈口径并存不混算）',
+   '② 黑名单扫描：0 命中'+(sel==='c'&&rej?'；演示中实际拒单 '+rej+' 次，零代价留痕':''),
+   '③ 判例要素：8 项无支配性管理迹象（演示口径）',
+   '④ 四流完整性：'+af.flows.map(function(p){return p[0]+' '+p[1]+'条';}).join(' / ')+'；共 '+af.evs.length+' 条',
+   '⑤ 法规对照：13/14/17/29 已覆盖；23 需增强（≥2年留存下载）；33 需增强；36 纪律强调',
+   '⑥ 依赖度提示：两轨并行/关联主体未发现；强度提示项正常（非违规项）',
+   '⑦ 举证预检：无缺项（四流证据包可导出）',
+   '⑧ 参数时效：计酬参数在有效期',
+   '⑨ 结论：九维通过 · 风险等级 低（演示口径，非法律意见；表述纪律见 03 §22）；待律师复核：现场型承揽定性、保险口径、协议形态'];
+  const t=$('#xOut'); if(t){ t.value=L.join('\n'); } toast('已生成体检报告文本，可复制');
+}
+
+/* ---------- ⑦ 审阅清单 ---------- */
+const REVIEW_ITEMS=[
+ ['⓪ 总览 / 框架',[['o1','五层架构与「合规中台不可绕过」的定位'],['o2','双轨划分（🟢 对公 / 🟡 个人）＋本轮不用非全日制'],['o3','三个不变量（口径唯一/红线做不到/四流默认开启）'],['o4','M3/M4「可选终局、非承诺」的克制表述']]],
+ ['① 灵工视角',[['c1','拒单零代价 ＋ 未响应≠接受'],['c2','到岗确认仅「确认」级（不考核、非签到）'],['c3','结算明细（报酬清单/零手续费/不以结算速度收费）'],['c4','工作记录台账（退出后 ≥2 年留存＋可下载）'],['c5','申诉通道（48h 人工答复）']]],
+ ['② 雇主视角',[['b1','红线动作开关「不可启用」'],['b2','验收退回不扣款'],['b3','多主体 / 成本报表面缺失（是否接受后续补）']]],
+ ['③ 承接方视角',[['a1','对公闭环（接单→签约→成果→验收→对公结算开票）'],['a2','「不向承接方人员派单」禁令呈现']]],
+ ['⑤ 平台视角',[['p1','租户 / 多实体模型'],['p2','规则包与参数卡版本化（含过期告警）'],['p3','计费与对账（费率锚点 / 计费禁令）'],['p4','供给池与监控大盘维度']]],
+ ['⑥ 合规审查台',[['x1','体检维度（已扩为九维：＋依赖度提示＋举证预检＋参数时效）'],['x2','表述纪律（三档，已定 10-12：见 03 §22）']]],
+ ['全局',[['g1','Q1–Q12 拍板（见 03 讨论稿）'],['g2','原型还缺什么（真机 / A 层排班 / 其他）']]]
+];
+const CHECK_LABEL={pass:'过',doubt:'疑问',object:'不同意'};
+function saveChecks(){ try{ localStorage.setItem('protoChecks', JSON.stringify(state.checks)); }catch(e){} }
+function setCheck(id,v){ if(state.checks[id]===v){ delete state.checks[id]; } else { state.checks[id]=v; } saveChecks(); renderK(); }
+function clearChecks(){ state.checks={}; saveChecks(); renderK(); toast('已清空标记'); }
+function renderK(){
+  const m=$('#kList'); if(!m) return;
+  let h='';
+  REVIEW_ITEMS.forEach(function(g){
+    h+='<div class="sec-t">'+g[0]+'</div>';
+    g[1].forEach(function(it){
+      const id=it[0],txt=it[1],cur=state.checks[id];
+      h+='<div class="chk-row"><span class="muted" style="min-width:26px">'+id+'</span><span>'+txt+'</span><span class="seg">'+
+        ['pass','doubt','object'].map(function(v){ return '<button class="'+(cur===v?'on '+v:'')+'" onclick="setCheck(\''+id+'\',\''+v+'\')">'+CHECK_LABEL[v]+'</button>'; }).join('')+
+        '</span></div>';
+    });
+  });
+  m.innerHTML=h;
+}
+function genSummary(){
+  const lines=['【原型审阅批注】灵活用工平台 · 交互原型 v0.1 · '+new Date().toLocaleString('zh-CN')];
+  let n=0,total=0;
+  REVIEW_ITEMS.forEach(function(g){ g[1].forEach(function(it){ total++; const v=state.checks[it[0]]; if(v){ n++; lines.push('['+CHECK_LABEL[v]+'] '+it[0]+' '+it[1]); } }); });
+  lines.push('—— 已标记 '+n+' / '+total+' 项（未标记默认「待看」）');
+  const t=$('#kOut'); if(t){ t.value=lines.join('\n'); } toast('已生成批注汇总，可复制');
+}
+
+/* ---------- 时钟 ---------- */
+setInterval(()=>{ const d=new Date(); $('#clock').textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); },10000);
+
+/* ---------- 初始 ---------- */
+renderC(); renderB(); renderA(); renderP(); renderX(); renderK(); renderE();
+</script>
+</body>
+</html>
