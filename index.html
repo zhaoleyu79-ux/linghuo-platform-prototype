@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>灵活用工平台 · 交互原型 v0.1</title>
+<title>灵活用工平台 · 交互原型 v0.2</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;background:#f6f4ef;color:#26303b;line-height:1.6}
@@ -140,8 +140,8 @@ aside.notes{flex:1;min-width:300px;max-width:520px}
   <div class="brand">
     <div class="logo">灵</div>
     <div>
-      <h1>灵活用工平台 · 交互原型 <span style="color:#98a0ad;font-weight:400">v0.1</span></h1>
-      <p class="sub">演示口径：可任务化 高/中/低（唯一口径）· 本轮容器＝现场型承揽 · 四流合一默认开启 · 拒绝零代价</p>
+      <h1>灵活用工平台 · 交互原型 <span style="color:#98a0ad;font-weight:400">v0.2</span></h1>
+      <p class="sub">演示口径：可任务化 高/中/低（唯一口径）· 容器：项目包（🟢）/ 现场型承揽（🟡）· 四流合一默认开启 · 拒绝零代价</p>
     </div>
   </div>
   <nav class="tabs" id="tabs">
@@ -161,6 +161,11 @@ aside.notes{flex:1;min-width:300px;max-width:520px}
   <section class="tabpanel active" id="panel-o">
     <div class="stage">
       <div style="flex:1;min-width:340px;max-width:780px">
+        <div class="card" style="border-color:#0d9488">
+          <div class="h2">🆕 本次更新（v0.2 · 2026-10-15）：线上督查（远程项目包）接入演示</div>
+          <p style="font-size:13px">在 <b>① C 端广场</b>新增 <span class="chip t">🟢 项目包 · 远程交付</span> 任务卡「门店池月度巡检项目包（线上督查）」。演示点：<b>无到岗环节</b>（远程交付）→ 成果提交 → <b>系统全量自动核验 ＋ AI 质检预筛 ＋ 验收岗仅触发</b>（门店 / 店长零参与）→ 按件计量结算。</p>
+          <button class="btn primary" style="margin-top:4px" onclick="switchTab('c')">去 ① C 端看效果 →</button>
+        </div>
         <div class="card">
           <div class="h2">灵活用工平台 · 设计地图（审阅第一站）</div>
           <p style="font-size:13px">定位：以「任务卡」为最小用工单元的<b>合规基础设施</b>——用工关系的判定器、合规的阀门、证据的记录者。<b>工具与记录者，不是用工主体</b>。</p>
@@ -168,7 +173,7 @@ aside.notes{flex:1;min-width:300px;max-width:520px}
             <span class="chip b">口径唯一：可任务化 高/中/低</span>
             <span class="chip r">红线在系统层「做不到」</span>
             <span class="chip t">四流合一默认开启</span>
-            <span class="chip y">本轮＝现场型承揽</span>
+            <span class="chip y">本轮 ＝ 现场型承揽（🟡）</span><span class="chip t">＋ 远程项目包（🟢 · 线上督查）</span>
           </div>
         </div>
         <div class="card">
@@ -229,6 +234,7 @@ aside.notes{flex:1;min-width:300px;max-width:520px}
             <li>先看 ⓪ 总览（设计地图＋四视角入口），再点开任意任务 → 先试一次 <b>「暂不接」</b>，看拒单提示（零代价）</li>
             <li>再进去 <b>「接受任务」</b> → 门禁校验 → 电子签约</li>
             <li>到岗确认 → 上传成果照片 → 提交成果</li>
+            <li>（线上督查卡不同：<b>无到岗环节</b>——签约后直接提交成果，系统自动核验＋AI 质检，门店零参与验收）</li>
             <li>切到 <span class="kbd">② B 端</span> → 验收台「确认通过」</li>
             <li>回 C 端看 <b>验收结果 → 结算明细</b>；打开「我的工作记录」可下载</li>
             <li>最后切到 <span class="kbd">④ 证据链</span> 看四流实时累积</li>
@@ -304,7 +310,7 @@ aside.notes{flex:1;min-width:300px;max-width:520px}
         </div>
         <div class="note-card">
           <h3>双轨对照</h3>
-          <p class="muted">🟡 轨（C 端 · 个人 · 现场型承揽）↔ 🟢 轨（A/S 端 · 对公 · 项目外包）。两条轨共用同一「任务卡 → 合规引擎 → 四流证据链」内核，差异全部在配置。</p>
+          <p class="muted">🟡 轨（C 端 · 个人 · 现场型承揽）｜🟢 轨（A/S 端 · 对公 · 项目外包 ／ C 端 · 个人 · 远程项目包〔线上督查 · 本次新增〕）。各轨共用同一「任务卡 → 合规引擎 → 四流证据链」内核，差异全部在配置。</p>
         </div>
       </aside>
     </div>
@@ -411,12 +417,14 @@ aside.notes{flex:1;min-width:300px;max-width:520px}
   </section>
 </main>
 
-<div class="footer">原型说明：页面均为演示数据（示例口径）· 设计依据：[[03 平台设计讨论稿 v0.2（审阅版）]] / [[04 劳动者端（C 端）功能设计 v0.1]] · 非法律意见 · 表述纪律见 03 §22</div>
+<div class="footer">原型说明：页面均为演示数据（示例口径）· 设计依据：[[03 平台设计讨论稿 v0.2（审阅版）]] / [[04 劳动者端（C 端）功能设计 v0.1]] · 非法律意见 · 表述纪律见 03 §22 · 版本 v0.2（v0.1 已归档；本次更新：线上督查远程项目包接入）</div>
 <div id="toast"></div>
 
 <script>
 /* ---------- 状态 ---------- */
 const TASKS = [
+  {id:'t4',cls:'t',remote:true,chip:'🟢 项目包 · 远程交付',title:'门店池月度巡检项目包（线上督查）',org:'每一天 · 商学苑（示例）',win:'本月 · 覆盖窗口内自主安排（每周覆盖 1 遍）',pay:'按件计量 · 约 ¥5,000 / 月（示例）',dist:'远程 · 无需到店',
+   desc:'对 50 家门店池完成 ≥4 轮远程稽核：巡检记录＋截图取证＋问题清单；含整改复核与周/月报表（包内按件：P1 巡店稽核 / P2 整改复核 / P3 数据报表与支持 / P4 培训核验）。',std:['批次覆盖率 100%（系统可核）','交付三件套：记录＋截图取证＋问题清单','证据链含时间戳、可对应门店与时间','AI 抽检一致率达标（阈值影子期定）'],req:'线上稽核 SOP 认证（示例）',note:'远程交付：无到岗签到、无排班、无请假审批；未覆盖门店顺延下批、不重复计价、不设扣分',status:'open'},
   {id:'t1',chip:'🟡 现场型承揽',title:'高峰理货补货',org:'每一天 · 雁塔路店（示例）',win:'今天 17:00–19:00 · 2 小时窗口',pay:'按包计价 · ¥68 / 包',dist:'距你 0.8 km',
    desc:'高峰后整排货架理货、补货、排面整理，按包验收。',std:['排面照片 ×3 提交','店长抽查复核'],req:'理货 SOP（基础级）已认证',note:'本任务不考核到岗时长；迟到 / 早退不扣款',status:'open'},
   {id:'t2',chip:'🟡 现场型承揽',title:'外卖拣货打包（午峰）',org:'每一天 · 小寨店（示例）',win:'今天 11:30–13:30',pay:'按单计价 · ¥1.2 / 单（预估 35–45 单）',dist:'距你 1.2 km',
@@ -490,14 +498,14 @@ function renderC(){
 }
 
 function viewSquare(){
-  let h='<div class="notice">口径：🟢 高＝项目外包/承揽 · 🟡 中＝现场型承揽（本轮）· 🔴 低＝全日制（不入交易）。以下均为 🟡 卡（示例）。</div>';
+  let h='<div class="notice">口径：🟢 高＝可外包/项目包 · 🟡 中＝现场型承揽（本轮）· 🔴 低＝全日制（不入交易）。广场含两类卡：🟡 现场型承揽（门店 · 到岗确认）｜🟢 项目包 · 远程交付（线上督查 · 无到岗）——均为示例。</div>';
   h+='<div class="sec-t">附近任务（按匹配度排序）</div>';
   TASKS.forEach(t=>{
     const rej=state.rejected[t.id]!==undefined;
     const done=state.flow&&state.flow.taskId===t.id&&state.flow.stage==='settled';
     const badge = done?'<span class="chip t">已完成</span>' : rej?'<span class="chip gray">已拒绝 · 零代价</span>' : '<span class="chip b">可接单</span>';
     h+='<div class="card tap" onclick="openTask(\''+t.id+'\')" style="'+(rej?'opacity:.72':'')+'">'+
-       '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span class="chip y">'+t.chip+'</span>'+badge+'</div>'+
+       '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span class="chip '+(t.cls||'y')+'">'+t.chip+'</span>'+badge+'</div>'+
        '<div style="font-size:15px;font-weight:700;margin:8px 0 4px">'+t.title+'</div>'+
        '<div class="muted">'+t.org+' · '+t.win+'</div>'+
        '<div style="display:flex;justify-content:space-between;margin-top:8px;font-size:13px"><span style="color:#2f6bed;font-weight:700">'+t.pay+'</span><span class="muted">'+t.dist+'</span></div>'+
@@ -512,14 +520,14 @@ function viewDetail(){
   const t=TASKS.find(x=>x.id===state.taskId); if(!t) return '<div class="empty">任务不存在</div>';
   const inFlow = state.flow && ['gate','signed','onsite','submitted','accepted','rework'].includes(state.flow.stage);
   let h='<div class="card">'+
-    '<div><span class="chip y">'+t.chip+'</span>'+(state.rejected[t.id]!==undefined?'<span class="chip gray">你已拒绝过</span>':'')+'</div>'+
+    '<div><span class="chip '+(t.cls||'y')+'">'+t.chip+'</span>'+(state.rejected[t.id]!==undefined?'<span class="chip gray">你已拒绝过</span>':'')+'</div>'+
     '<div style="font-size:17px;font-weight:800;margin:8px 0 4px">'+t.title+'</div>'+
     '<div class="muted">'+t.org+' · '+t.dist+'</div></div>'+
     '<div class="card">'+
     kv('任务内容',t.desc)+kv('时段窗口',t.win)+kv('计价方式',t.pay)+
     kv('验收标准',t.std.join('；'))+kv('资质要求',t.req)+
     '<div class="muted" style="margin-top:8px">'+t.note+'</div></div>'+
-    '<div class="warn">本任务按<b>成果</b>验收计酬：无过程管理、无请假审批（不想做就不接）、不到岗不惩罚。</div>';
+    '<div class="warn">'+(t.remote?'远程项目包按<b>成果</b>验收计酬：无到岗环节、无排班、无请假审批（不想做就不接）；覆盖窗口内自主安排。':'本任务按<b>成果</b>验收计酬：无过程管理、无请假审批（不想做就不接）、不到岗不惩罚。')+'</div>';
   if(state.flow&&state.flow.taskId===t.id){
     h+='<div class="notice">你与该任务已有关联：'+stageLabel(state.flow.stage)+'</div>'+
        '<button class="btn primary block" onclick="resume()">回到任务</button>';
@@ -586,23 +594,40 @@ function doSign(){
 
 function viewActive(){
   const t=flowTask(); const s=state.flow.stage;
-  let h='<div class="card"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="chip y">'+t.chip+'</span><span class="chip b">'+stageLabel(s)+'</span></div>'+
+  let h='<div class="card"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="chip '+(t.cls||'y')+'">'+t.chip+'</span><span class="chip b">'+stageLabel(s)+'</span></div>'+
     '<div style="font-size:15px;font-weight:700;margin:8px 0 2px">'+t.title+'</div><div class="muted">'+t.org+' · '+t.win+'</div></div>';
   const done=k=>['signed','onsite','submitted','accepted','rework','settled'].includes(s)&&k;
-  h+='<div class="card"><div class="h2">履约进度</div><ul class="steps">'+
-    '<li class="done"><span class="n">✓</span>已签约（承揽协议）</li>'+
-    '<li class="'+(s==='signed'?'now':'')+(s!=='signed'?' done':'')+'"><span class="n">'+(s==='signed'?'2':'✓')+'</span>到岗确认（仅确认级 · 记录履约证据）</li>'+
-    '<li class="'+(['onsite'].includes(s)?'now':'')+(['submitted','accepted','rework','settled'].includes(s)?' done':'')+'"><span class="n">3</span>履约与成果提交</li>'+
-    '<li class="'+(['submitted'].includes(s)?'now':'')+(['accepted','settled'].includes(s)?' done':'')+'"><span class="n">4</span>验收</li>'+
-    '<li class="'+(['accepted'].includes(s)?'now':'')+((s==='settled')?' done':'')+'"><span class="n">5</span>结算</li></ul>';
-  if(s==='signed') h+='<button class="btn primary block" onclick="arrive()">到岗确认（示例：距店 80m）</button>';
+  const steps = t.remote
+    ? '<li class="done"><span class="n">✓</span>已签约（承揽协议）</li>'+
+      '<li class="'+((s==='signed')?'now':'')+(['submitted','accepted','rework','settled'].includes(s)?' done':'')+'"><span class="n">2</span>履约与成果提交（远程 · 无到岗环节）</li>'+
+      '<li class="'+(['submitted'].includes(s)?'now':'')+(['accepted','settled'].includes(s)?' done':'')+'"><span class="n">3</span>验收（系统自动核验 ＋ AI 质检）</li>'+
+      '<li class="'+(['accepted'].includes(s)?'now':'')+((s==='settled')?' done':'')+'"><span class="n">4</span>结算</li>'
+    : '<li class="done"><span class="n">✓</span>已签约（承揽协议）</li>'+
+      '<li class="'+(s==='signed'?'now':'')+(s!=='signed'?' done':'')+'"><span class="n">'+(s==='signed'?'2':'✓')+'</span>到岗确认（仅确认级 · 记录履约证据）</li>'+
+      '<li class="'+(['onsite'].includes(s)?'now':'')+(['submitted','accepted','rework','settled'].includes(s)?' done':'')+'"><span class="n">3</span>履约与成果提交</li>'+
+      '<li class="'+(['submitted'].includes(s)?'now':'')+(['accepted','settled'].includes(s)?' done':'')+'"><span class="n">4</span>验收</li>'+
+      '<li class="'+(['accepted'].includes(s)?'now':'')+((s==='settled')?' done':'')+'"><span class="n">5</span>结算</li>';
+  h+='<div class="card"><div class="h2">履约进度</div><ul class="steps">'+steps+'</ul>';
+  if(s==='signed'&&!t.remote) h+='<button class="btn primary block" onclick="arrive()">到岗确认（示例：距店 80m）</button>';
+  else if(s==='signed'&&t.remote){
+    h+='<div class="notice">远程项目包：<b>无到岗环节</b>——签约后在覆盖窗口内自主安排履约，成果随时可提交（无排班、无签到、无请假审批）。</div>'+
+    '<div class="muted" style="margin:4px 0 8px">提交成果（交付三件套：记录 / 截图取证 / 问题清单 · 示例）</div><div class="photos">';
+    for(let i=0;i<3;i++) h+= i<state.photos?'<div class="ph">🖼</div>':'<div class="ph empty">＋</div>';
+    h+='</div>';
+    if(state.photos<3) h+='<button class="btn ghost block" onclick="addPhoto()" style="margin-bottom:8px">添加材料（'+state.photos+'/3）</button>';
+    h+='<button class="btn green block" '+(state.photos<3?'disabled':'')+' onclick="submitResult()">提交成果，等待系统核验</button>';
+  }
   else if(s==='onsite'){
     h+='<div class="muted" style="margin:4px 0 8px">提交成果（照片 ×3，示例）</div><div class="photos">';
     for(let i=0;i<3;i++) h+= i<state.photos?'<div class="ph">🖼</div>':'<div class="ph empty">＋</div>';
     h+='</div>';
     if(state.photos<3) h+='<button class="btn ghost block" onclick="addPhoto()" style="margin-bottom:8px">添加照片（'+state.photos+'/3）</button>';
     h+='<button class="btn green block" '+(state.photos<3?'disabled':'')+' onclick="submitResult()">提交成果，等待验收</button>';
-  } else if(s==='submitted') h+='<div class="notice">已提交，等待门店验收。切到「B 端 · 门店」→ 验收台操作（演示闭环）。</div>';
+  } else if(s==='submitted'){
+    if(t.remote) h+='<div class="notice">已提交，进入<b>系统全量自动核验</b>（覆盖率 / 三件套完整性 / 证据链字段 · 示例）——无需门店操作。</div>'+
+      '<button class="btn primary block" onclick="sysVerify()">模拟：系统自动核验完成（演示）</button>';
+    else h+='<div class="notice">已提交，等待门店验收。切到「B 端 · 门店」→ 验收台操作（演示闭环）。</div>';
+  }
   else if(s==='rework'){ h+='<div class="warn">验收未通过：请按说明返工后重新提交（<b>不扣款</b>）。你也可以直接提出申诉。</div>'+
     '<div class="row"><button class="btn primary" onclick="resubmit()">重新提交成果</button><button class="btn ghost" onclick="go(\'appeal\')">提出申诉</button></div>'; }
   else if(s==='accepted') h+='<div class="notice">验收已通过 ✅ 去看看验收结果与结算。</div><button class="btn primary block" onclick="go(\'acceptance\')">查看验收结果</button>';
@@ -612,10 +637,24 @@ function viewActive(){
 }
 function arrive(){ state.flow.stage='onsite'; ev('履约流','到岗确认 · LBS 距店 80m（仅确认级，不考核）'); toast('已记录到岗确认（履约证据）'); renderC(); }
 function addPhoto(){ if(state.photos<3){state.photos++; renderC();} }
-function submitResult(){ state.flow.stage='submitted'; ev('履约流','成果提交 · 照片 ×'+state.photos+' + 提交时间戳'); toast('成果已提交，等待门店验收'); renderC(); renderB(); }
-function resubmit(){ state.photos=0; state.flow.stage='onsite'; toast('已进入返工流程（示例）'); renderC(); }
+function submitResult(){ const t=flowTask(); state.flow.stage='submitted';
+  if(t&&t.remote){ ev('履约流','成果提交：巡检记录＋截图取证＋问题清单（交付三件套）＋ 提交时间戳'); toast('成果已提交，进入系统自动核验'); }
+  else { ev('履约流','成果提交 · 照片 ×'+state.photos+' + 提交时间戳'); toast('成果已提交，等待门店验收'); }
+  renderC(); renderB(); renderE(); }
+function resubmit(){ const t=flowTask(); state.photos=0; state.flow.stage=(t&&t.remote)?'signed':'onsite'; toast('已进入返工流程（示例）'); renderC(); }
+function sysVerify(){ state.flow.stage='accepted'; ev('履约流','系统全量自动核验通过：批次覆盖率 100% · 交付三件套完整 · 证据链字段完整；AI 质检预筛无异常；人工验收岗未触发（门店零参与）'); toast('系统核验通过（演示）· 未触发人工验收'); renderC(); renderB(); renderE(); }
 
 function viewAcceptance(){
+  const t=flowTask();
+  if(t&&t.remote){ return '<div class="card"><div class="h2">验收结果（远程项目包）</div>'+
+    '<div class="kv"><span class="k">验收方式</span><span class="v">系统全量自动核验 ＋ AI 质检预筛 ＋ 验收岗仅触发（人工）</span></div>'+
+    '<div class="kv"><span class="k">① 系统核验</span><span class="v">✓ 通过：批次覆盖率 100% · 三件套完整 · 证据链完整（示例）</span></div>'+
+    '<div class="kv"><span class="k">② AI 质检</span><span class="v">✓ 无异常标记（截图有效性 / 时间-位置一致性 · 示例）</span></div>'+
+    '<div class="kv"><span class="k">③ 人工验收岗</span><span class="v">本次未触发（免人工通过）；抽检 / 异议时才介入</span></div>'+
+    '<div class="kv"><span class="k">门店 / 店长参与</span><span class="v">零（利益回避——稽核对象不做验收方）</span></div></div>'+
+    '<div class="notice">验收标准发单前公示；未达标＝该单位不予验收（不计价 / 返工），<b>不设扣分</b>；承接者可申诉。</div>'+
+    '<button class="btn primary block" onclick="go(\'settlement\')">查看结算明细</button>'+
+    '<button class="btn ghost block" style="margin-top:8px" onclick="go(\'appeal\')">我对验收有异议（申诉）</button>'; }
   return '<div class="card"><div class="h2">验收结果</div>'+
     '<div class="kv"><span class="k">验收方式</span><span class="v">店长确认 ＋ AI 初判</span></div>'+
     '<div class="kv"><span class="k">AI 初判</span><span class="v">排面完整度 92%（建议通过）</span></div>'+
@@ -626,11 +665,23 @@ function viewAcceptance(){
     '<button class="btn ghost block" style="margin-top:8px" onclick="go(\'appeal\')">我对验收有异议（申诉）</button>';
 }
 function viewSettlement(){
+  const t=flowTask(); const remote=!!(t&&t.remote);
   if(state.flow&&state.flow.stage==='accepted'){ /* 首次进入结算页时生成资金/票据流证据 */
-    ev('资金流','结算单生成 · 报酬 ¥68.00 · 报酬明细清单已推送');
-    ev('票据流','个税累计预扣记录（示例 ¥2.04）· 税前扣除材料留存');
+    if(remote){ ev('资金流','结算单生成 · 报酬 ¥5,000.00（按件计量 · 示例）· 报酬明细清单已推送'); ev('票据流','个税累计预扣记录（示例 −¥150.00）· 税前扣除材料留存'); }
+    else { ev('资金流','结算单生成 · 报酬 ¥68.00 · 报酬明细清单已推送'); ev('票据流','个税累计预扣记录（示例 ¥2.04）· 税前扣除材料留存'); }
     state.flow.stage='settled';
   }
+  if(remote) return '<div class="card"><div class="h2">报酬明细清单（按件计量 · 示例）</div>'+
+    '<div class="kv"><span class="k">P1 巡店稽核</span><span class="v">200 店·次 × ¥20 ＝ ¥4,000.00</span></div>'+
+    '<div class="kv"><span class="k">P2 整改复核</span><span class="v">40 单 × ¥15 ＝ ¥600.00</span></div>'+
+    '<div class="kv"><span class="k">P3 数据报表与支持</span><span class="v">5 期 × ¥60 ＝ ¥300.00</span></div>'+
+    '<div class="kv"><span class="k">P4 培训核验</span><span class="v">1 批 × ¥100 ＝ ¥100.00</span></div>'+
+    '<div class="kv"><span class="k"><b>任务报酬</b></span><span class="v"><b>¥5,000.00</b></span></div>'+
+    '<div class="kv"><span class="k">个税（累计预扣 · 示例）</span><span class="v">− ¥150.00</span></div>'+
+    '<div class="kv"><span class="k"><b>实发</b></span><span class="v"><b>¥4,850.00</b></span></div>'+
+    '<div class="kv"><span class="k">到账状态</span><span class="v" style="color:#0d9488;font-weight:700">已到账</span></div></div>'+
+    '<div class="notice">按件计量 · 单价发单前公示；结算周期符合合规要求；平台<b>不以「结算速度」收费</b>。</div>'+
+    '<div class="row"><button class="btn ghost" onclick="go(\'record\')">我的工作记录</button><button class="btn primary" onclick="go(\'square\')">回到广场</button></div>';
   return '<div class="card"><div class="h2">报酬明细清单（示例）</div>'+
     '<div class="kv"><span class="k">任务报酬</span><span class="v">¥68.00</span></div>'+
     '<div class="kv"><span class="k">费用构成</span><span class="v">任务定价 ¥68 · 无其他扣费</span></div>'+
@@ -674,7 +725,7 @@ function viewProfile(){
     '<div class="menu-item">⏰ 休息提示（连续作业 4 小时提醒）<span class="arr" style="color:#0d9488;font-weight:600">已开启</span></div>'+
     '<div class="menu-item">🔒 隐私与个人信息（最小必要采集）<span class="arr">›</span></div>'+
     '</div>'+
-    '<div class="muted" style="text-align:center">原型 v0.1 · 演示数据 · 非真实服务</div>';
+    '<div class="muted" style="text-align:center">原型 v0.2 · 演示数据 · 非真实服务</div>';
 }
 function viewAppeal(){
   return '<div class="notice">申诉通道（示例）：验收异议、报酬疑问、行为记录争议等，均可在此提交——<b>48 小时内人工答复</b>（不得纯算法答复）；异议成立即纠正。</div>'+
@@ -698,7 +749,7 @@ function viewRules(){
 function viewMyTasks(){
   if(!state.flow) return '<div class="empty">暂无进行中的任务<br>去「广场」接一单试试</div>';
   const t=flowTask();
-  return '<div class="card tap" onclick="go(\'active\')"><div style="display:flex;gap:8px;flex-wrap:wrap"><span class="chip y">'+t.chip+'</span><span class="chip b">'+stageLabel(state.flow.stage)+'</span></div>'+
+  return '<div class="card tap" onclick="go(\'active\')"><div style="display:flex;gap:8px;flex-wrap:wrap"><span class="chip '+(t.cls||'y')+'">'+t.chip+'</span><span class="chip b">'+stageLabel(state.flow.stage)+'</span></div>'+
     '<div style="font-weight:700;margin:8px 0 2px">'+t.title+'</div><div class="muted">'+t.win+' · '+t.pay+'</div></div>';
 }
 
@@ -716,8 +767,13 @@ function renderB(){
     m.innerHTML=h;
   } else if(v==='review'){
     const f=state.flow;
+    const exNote='<div class="notice" style="margin-bottom:10px">边界：远程项目包（线上督查）<b>不在门店验收台</b>——验收＝系统全量自动核验 ＋ AI 质检预筛 ＋ 商学苑验收岗仅触发；<b>门店 / 店长零参与</b>（利益回避）。</div>';
+    if(f&&flowTask()&&flowTask().remote){
+      m.innerHTML='<div class="h2">验收台</div>'+exNote+'<div class="empty">当前进行中的是远程项目包（线上督查）——不走门店验收；请去 C 端查看「验收结果」（演示）</div>';
+      return;
+    }
     if(!f||!['submitted','rework'].includes(f.stage)) {
-      m.innerHTML='<div class="h2">验收台</div><div class="empty">暂无待验收任务<br>去 C 端提交成果后，这里会出现待办（演示闭环）</div>';
+      m.innerHTML='<div class="h2">验收台</div>'+exNote+'<div class="empty">暂无待验收任务<br>去 C 端提交成果后，这里会出现待办（演示闭环）</div>';
       return;
     }
     const t=flowTask();
@@ -872,7 +928,7 @@ function auditElems(sel){
   return [
     ['工作时间与工作量自主决定', sel==='c'?'✓ 自主接单、可拒绝、未响应不成交':'✓ 承接方自主组织与安排'],
     ['实时指派 / 不可拒单','✓ 无（可拒为默认；无强制派单）'],
-    ['考勤与请假审批','✓ 无（仅到岗确认，非考勤；不接单即可）'],
+    ['考勤与请假审批',(sel==='c'&&flowTask()&&flowTask().remote)?'✓ 无（远程项目包：连到岗环节都不存在；不接单即可）':'✓ 无（仅到岗确认，非考勤；不接单即可）'],
     ['过程管理 / 时限考核','✓ 无（按成果验收）'],
     ['组织融入要求','✓ 平台侧无对应功能（不作组织管理）'],
     ['固定底薪 ＋ 奖励结构', sel==='c'?'✓ 无（按成果计价）':'✓ 无（按合同节点支付）'],
@@ -964,7 +1020,7 @@ function genAuditOut(){
 /* ---------- ⑦ 审阅清单 ---------- */
 const REVIEW_ITEMS=[
  ['⓪ 总览 / 框架',[['o1','五层架构与「合规中台不可绕过」的定位'],['o2','双轨划分（🟢 对公 / 🟡 个人）＋本轮不用非全日制'],['o3','三个不变量（口径唯一/红线做不到/四流默认开启）'],['o4','M3/M4「可选终局、非承诺」的克制表述']]],
- ['① 灵工视角',[['c1','拒单零代价 ＋ 未响应≠接受'],['c2','到岗确认仅「确认」级（不考核、非签到）'],['c3','结算明细（报酬清单/零手续费/不以结算速度收费）'],['c4','工作记录台账（退出后 ≥2 年留存＋可下载）'],['c5','申诉通道（48h 人工答复）']]],
+ ['① 灵工视角',[['c1','拒单零代价 ＋ 未响应≠接受'],['c2','到岗确认仅「确认」级（不考核、非签到）'],['c3','结算明细（报酬清单/零手续费/不以结算速度收费）'],['c4','工作记录台账（退出后 ≥2 年留存＋可下载）'],['c5','申诉通道（48h 人工答复）'],['c6','🟢 远程项目包（线上督查）：无到岗环节 · 系统/AI/验收岗三通道验收 · 门店零参与 · 按件计量结算']]],
  ['② 雇主视角',[['b1','红线动作开关「不可启用」'],['b2','验收退回不扣款'],['b3','多主体 / 成本报表面缺失（是否接受后续补）']]],
  ['③ 承接方视角',[['a1','对公闭环（接单→签约→成果→验收→对公结算开票）'],['a2','「不向承接方人员派单」禁令呈现']]],
  ['⑤ 平台视角',[['p1','租户 / 多实体模型'],['p2','规则包与参数卡版本化（含过期告警）'],['p3','计费与对账（费率锚点 / 计费禁令）'],['p4','供给池与监控大盘维度']]],
@@ -990,7 +1046,7 @@ function renderK(){
   m.innerHTML=h;
 }
 function genSummary(){
-  const lines=['【原型审阅批注】灵活用工平台 · 交互原型 v0.1 · '+new Date().toLocaleString('zh-CN')];
+  const lines=['【原型审阅批注】灵活用工平台 · 交互原型 v0.2 · '+new Date().toLocaleString('zh-CN')];
   let n=0,total=0;
   REVIEW_ITEMS.forEach(function(g){ g[1].forEach(function(it){ total++; const v=state.checks[it[0]]; if(v){ n++; lines.push('['+CHECK_LABEL[v]+'] '+it[0]+' '+it[1]); } }); });
   lines.push('—— 已标记 '+n+' / '+total+' 项（未标记默认「待看」）');
